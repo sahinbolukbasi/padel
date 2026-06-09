@@ -35,13 +35,128 @@
   });
 })();
 
-/* ─── 2. Court Tooltips: hover & click/touch ────────────────── */
-(function initTooltips() {
-  const hotspots = document.querySelectorAll('[data-hotspot]');
-  const overlay  = document.getElementById('tooltipOverlay');
-  let activeHotspot = null;
+/* ─── 2. SVG Court + Mobile Bottom Sheet ────────────────────── */
+(function initCourtBottomSheet() {
+  const zones = document.querySelectorAll('.court-zone[data-zone]');
+  const overlay = document.getElementById('sheetOverlay');
+  const sheet = document.getElementById('courtSheet');
+  const closeBtn = document.getElementById('sheetClose');
+  const titleEl = document.getElementById('sheetTitle');
+  const subtitleEl = document.getElementById('sheetSubtitle');
+  const descEl = document.getElementById('sheetDesc');
+  const rulesEl = document.getElementById('sheetRules');
+  const iconEl = document.getElementById('sheetIcon');
 
-  // Wrap tooltip body content in inner div if not already (for accordion-style padding)
+  if (!zones.length || !overlay || !sheet) return;
+
+  const zoneData = {
+    net: {
+      icon: '🕸️',
+      title: 'File (Net)',
+      subtitle: 'Sahayı ikiye bölen kritik hat',
+      desc: 'Padelde file yüksekliği ortada 88 cm, kenarlarda 92 cm olacak şekilde tasarlanır. Servis ve rally vuruşları fileyi temiz geçmelidir.',
+      rules: [
+        'Serviste top fileye değip doğru kutuya düşerse let oynanır.',
+        'Vuruş sırasında raketin veya oyuncunun fileye teması hatadır.',
+        'Fileye takılan top karşı tarafa geçmezse puan kaybı oluşur.'
+      ]
+    },
+    'service-line': {
+      icon: '📏',
+      title: 'Servis Çizgisi',
+      subtitle: 'Fileden 3 metre uzaktaki kontrol hattı',
+      desc: 'Servis topu çapraz servis kutusuna düşerken servis çizgisinin ön tarafına inmelidir. Çizgiye temas geçerli kabul edilir.',
+      rules: [
+        'Servis topu servis çizgisini aşarak derine düşmemelidir.',
+        'Servis pozisyonu arka çizgi gerisinde korunmalıdır.',
+        'Çizgi üstü temas kural gereği içeri sayılır.'
+      ]
+    },
+    'service-box': {
+      icon: '🎯',
+      title: 'Servis Kutuları',
+      subtitle: 'Çapraz servis hedef alanı',
+      desc: 'Standart 10x20 m kortta servis kutuları file ve servis çizgisi arasında ikiye bölünür. Servis daima çapraz kutuya gönderilir.',
+      rules: [
+        'Sağdan atılan servis rakibin sol kutusuna gitmelidir.',
+        'Soldan atılan servis rakibin sağ kutusuna gitmelidir.',
+        'Top kutuya düşmeden direkt cama giderse servis hatasıdır.'
+      ]
+    },
+    'back-glass': {
+      icon: '🧱',
+      title: 'Arka Cam',
+      subtitle: 'Padelin savunma motoru',
+      desc: 'Top zemine temas ettikten sonra arka cama çarpıp geri dönebilir. Savunma oyuncusu bu dönüşü avantaja çevirebilir.',
+      rules: [
+        'Top önce zemine değmeden cama çarparsa puan kaybedilir.',
+        'Camdan sekme sonrası tek vuruş hakkı vardır.',
+        'Lob savunmasında arka cam kullanımı kritik taktiktir.'
+      ]
+    },
+    'side-walls': {
+      icon: '🛡️',
+      title: 'Yan Cam/Tel',
+      subtitle: 'Açı üretimi ve ritim kırma bölgesi',
+      desc: 'Yan duvarlar padelde topa ekstra yön verir. Kontrollü yan sekmeler rakibi dengesiz yakalamak için kullanılır.',
+      rules: [
+        'Top zeminden sonra yan duvara değerek oyunda kalabilir.',
+        'Duvar sekmesini okuyup pozisyon almak reaksiyon kazandırır.',
+        'Dar açılarda yan duvar üzerinden tempo değiştirilebilir.'
+      ]
+    }
+  };
+
+  let activeZone = null;
+
+  function setActive(zoneEl) {
+    zones.forEach(z => z.classList.remove('is-active'));
+    if (zoneEl) zoneEl.classList.add('is-active');
+    activeZone = zoneEl;
+  }
+
+  function openSheet(zoneKey) {
+    const data = zoneData[zoneKey];
+    if (!data) return;
+
+    titleEl.textContent = data.title;
+    subtitleEl.textContent = data.subtitle;
+    descEl.textContent = data.desc;
+    iconEl.textContent = data.icon;
+    rulesEl.innerHTML = data.rules.map(rule => `<li>${rule}</li>`).join('');
+
+    overlay.classList.add('is-open');
+    sheet.classList.add('is-open');
+    sheet.setAttribute('aria-hidden', 'false');
+  }
+
+  function closeSheet() {
+    overlay.classList.remove('is-open');
+    sheet.classList.remove('is-open');
+    sheet.setAttribute('aria-hidden', 'true');
+    if (activeZone) activeZone.classList.remove('is-active');
+    activeZone = null;
+  }
+
+  zones.forEach(zone => {
+    zone.addEventListener('click', () => {
+      const key = zone.dataset.zone;
+      setActive(zone);
+      openSheet(key);
+    });
+  });
+
+  closeBtn.addEventListener('click', closeSheet);
+  overlay.addEventListener('click', closeSheet);
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') closeSheet();
+  });
+})();
+
+/* ─── 3. Accordion (Faults) ──────────────────────────────────── */
+(function initAccordion() {
+  const items = document.querySelectorAll('[data-accordion]');
+
   document.querySelectorAll('.fault-body').forEach(body => {
     if (!body.querySelector('.fault-body-inner')) {
       const inner = document.createElement('div');
@@ -50,39 +165,6 @@
       body.appendChild(inner);
     }
   });
-
-  function closeActive() {
-    if (activeHotspot) {
-      activeHotspot.classList.remove('is-active');
-      activeHotspot = null;
-    }
-    overlay.classList.remove('is-active');
-  }
-
-  hotspots.forEach(hs => {
-    // Touch / click for mobile
-    hs.addEventListener('click', e => {
-      e.stopPropagation();
-      if (activeHotspot === hs) {
-        closeActive();
-        return;
-      }
-      closeActive();
-      activeHotspot = hs;
-      hs.classList.add('is-active');
-      overlay.classList.add('is-active');
-    });
-  });
-
-  overlay.addEventListener('click', closeActive);
-  document.addEventListener('keydown', e => {
-    if (e.key === 'Escape') closeActive();
-  });
-})();
-
-/* ─── 3. Accordion (Faults) ──────────────────────────────────── */
-(function initAccordion() {
-  const items = document.querySelectorAll('[data-accordion]');
 
   items.forEach(item => {
     const btn  = item.querySelector('.fault-header');
@@ -128,246 +210,215 @@
   }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
 
   cards.forEach(card => observer.observe(card));
+
+  // Mobile readability: tap card to expand/collapse full text.
+  cards.forEach(card => {
+    card.addEventListener('click', () => {
+      if (window.innerWidth > 768) return;
+      card.classList.toggle('is-expanded');
+    });
+  });
 })();
 
-/* ─── 5. Serve Animation ─────────────────────────────────────── */
-(function initServeAnimation() {
-  const btn    = document.getElementById('btnServe');
-  const court  = document.getElementById('serveCourt');
-  const ball   = document.getElementById('serveBall');
-  const b1     = document.getElementById('serveBounce1');
-  const b2     = document.getElementById('serveBounce2');
+/* ─── 5. Motion Lab (4 Advanced Animations) ─────────────────── */
+(function initMotionLab() {
+  const svg = document.getElementById('motionSvg');
+  const ball = document.getElementById('motionBall');
+  const trail = document.getElementById('motionTrail');
+  const pathGhost = document.getElementById('motionPathGhost');
+  const tabs = Array.from(document.querySelectorAll('.motion-tab'));
+  const playBtn = document.getElementById('motionPlay');
+  const prevBtn = document.getElementById('motionPrev');
+  const nextBtn = document.getElementById('motionNext');
+  const range = document.getElementById('motionProgress');
+  const stepLabel = document.getElementById('motionStepLabel');
+  const titleEl = document.getElementById('motionTitle');
+  const descEl = document.getElementById('motionDesc');
+  const stepsEl = document.getElementById('motionSteps');
+  const btnT1 = document.getElementById('motionT1');
+  const btnT2 = document.getElementById('motionT2');
 
-  if (!btn || !court || !ball) return;
+  if (!svg || !ball || !tabs.length) return;
 
-  let running = false;
-
-  // Animation keyframes as percentage-based positions [left%, top%]
-  const steps = [
-    // [left%, top%, duration_ms, easing]
-    { l: 62, t: 22, d: 0,    e: 'linear' },      // start: server position (bottom-right of own court)
-    { l: 58, t: 68, d: 350,  e: 'ease-out' },     // bounce 1 (own court)
-    { l: 40, t: 42, d: 400,  e: 'ease-in-out' },  // cross net
-    { l: 28, t: 22, d: 380,  e: 'ease-in' },      // bounce 2 (cross service box)
-    { l: 22, t: 8,  d: 300,  e: 'ease-out' },     // hit back wall
-    { l: 28, t: 22, d: 250,  e: 'ease-in-out' },  // rebound from glass
-  ];
-
-  const bouncePositions = [
-    { el: b1, l: 58, t: 68 },
-    { el: b2, l: 28, t: 22 },
-  ];
-
-  function resetAnim() {
-    ball.style.transition = 'none';
-    ball.style.opacity = '0';
-    ball.style.left = steps[0].l + '%';
-    ball.style.top  = steps[0].t + '%';
-    [b1, b2].forEach(b => { b.style.opacity = '0'; });
-    drawServePath(court);
-  }
-
-  async function playServe() {
-    if (running) return;
-    running = true;
-    btn.classList.add('is-playing');
-    btn.textContent = '⏹ Duraksatmak için tıkla';
-
-    resetAnim();
-
-    // Fade in ball
-    await delay(50);
-    ball.style.transition = 'opacity 0.2s ease';
-    ball.style.opacity = '1';
-    await delay(200);
-
-    // Animate through steps
-    for (let i = 1; i < steps.length; i++) {
-      const s = steps[i];
-      ball.style.transition = `left ${s.d}ms ${s.e}, top ${s.d}ms ${s.e}`;
-      ball.style.left = s.l + '%';
-      ball.style.top  = s.t + '%';
-      await delay(s.d);
-
-      // Show bounce markers
-      if (i === 1) showBounce(b1, bouncePositions[0]);
-      if (i === 3) showBounce(b2, bouncePositions[1]);
+  const motions = {
+    serve: {
+      title: 'Doğru Servis',
+      reason: 'Doğru Servis',
+      desc: 'Servis topu önce zemine iner, çapraz kutuya gider ve derinlikte camdan sekerek oyunu başlatır.',
+      steps: [
+        { text: 'Hazırlık: Servis oyuncusu sağ arka bölgeden pozisyon alır.', p: [250, 560] },
+        { text: 'Top zemine bir kez bırakılır, bel altı vuruş hazırlanır.', p: [238, 500] },
+        { text: 'Top çapraz servis kutusuna gönderilir.', p: [92, 168] },
+        { text: 'Derinlikte arka cama temas ederek sekme üretir.', p: [70, 44] }
+      ]
+    },
+    bandeja: {
+      title: 'Bandeja',
+      reason: 'Bandeja Vuruşu',
+      desc: 'Orta-yüksek topta kontrollü kesme vuruşla topu düşük ve derin göndererek file üstünlüğünü korur.',
+      steps: [
+        { text: 'Rakip lobuna karşı file oyuncusu geri adım açısı alır.', p: [176, 260] },
+        { text: 'Omuz üstünde kontrollü kesme teması yapılır.', p: [196, 238] },
+        { text: 'Top rakibin arka bölgesine alçak hızda iner.', p: [116, 86] },
+        { text: 'Sekme sonrası top alçakta kalarak baskı sürer.', p: [130, 68] }
+      ]
+    },
+    lob: {
+      title: 'Lob',
+      reason: 'Lob Vuruşu',
+      desc: 'Savunmadan çıkmak için topu yüksek kavisle rakibin arkasına atıp file pozisyonunu geri aldırır.',
+      steps: [
+        { text: 'Savunma oyuncusu alçak toptan yükseliş açısı üretir.', p: [84, 528] },
+        { text: 'Top yüksek parabole girer.', p: [150, 350] },
+        { text: 'Rakibin arkasına doğru derin düşüş başlar.', p: [218, 128] },
+        { text: 'Arka çizgiye yakın inişle rakibi geri iter.', p: [228, 52] }
+      ]
+    },
+    wall: {
+      title: 'Duvar Kullanımı',
+      reason: 'Duvar Kullanımı',
+      desc: 'Arka camdan dönen top zamanlanarak karşı sahaya yönlendirilir; savunma hücuma dönüşür.',
+      steps: [
+        { text: 'Top arka bölgeye hızlı yaklaşır.', p: [88, 540] },
+        { text: 'Zeminden sonra arka cama çarpar.', p: [60, 612] },
+        { text: 'Cam sekmesi sonrası oyuncu zamanlamayı yakalar.', p: [106, 512] },
+        { text: 'Vuruşla top karşı yarıya kontrollü gönderilir.', p: [206, 226] }
+      ]
     }
+  };
 
-    // Flash on wall
-    ball.style.transition = 'box-shadow 0.15s ease';
-    ball.style.boxShadow = '0 0 20px rgba(204,255,0,1), 0 0 40px rgba(204,255,0,0.8)';
-    await delay(200);
-    ball.style.boxShadow = '';
+  let key = 'serve';
+  let step = 0;
+  let animating = false;
 
-    await delay(600);
-
-    // Fade out
-    ball.style.transition = 'opacity 0.3s ease';
-    ball.style.opacity = '0';
-    await delay(300);
-
-    running = false;
-    btn.classList.remove('is-playing');
-    btn.innerHTML = '<svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg> Servisi İzle';
+  function drawTrail(x, y) {
+    const dot = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+    dot.setAttribute('cx', x);
+    dot.setAttribute('cy', y);
+    dot.setAttribute('r', '5');
+    dot.setAttribute('fill', 'rgba(204,255,0,0.35)');
+    dot.style.transition = 'opacity 450ms ease-out, transform 450ms ease-out';
+    trail.appendChild(dot);
+    requestAnimationFrame(() => {
+      dot.style.opacity = '0';
+      dot.style.transform = 'scale(0.4)';
+    });
+    setTimeout(() => dot.remove(), 500);
   }
 
-  function showBounce(el, pos) {
-    el.style.left = pos.l + '%';
-    el.style.top  = pos.t + '%';
-    el.style.transition = 'opacity 0.1s ease, transform 0.3s ease';
-    el.style.opacity = '1';
-    el.style.transform = 'translate(-50%, -50%) scale(1)';
-    setTimeout(() => {
-      el.style.transform = 'translate(-50%, -50%) scale(2)';
-      el.style.opacity = '0';
-    }, 150);
-    setTimeout(() => {
-      el.style.transform = 'translate(-50%, -50%) scale(1)';
-    }, 450);
-  }
-
-  function drawServePath(container) {
-    const svg  = container.querySelector('#serveTrajectory');
-    const path = container.querySelector('#servePath');
-    if (!svg || !path) return;
-
-    const W = 300, H = 600;
-    const pts = steps.map(s => ({ x: s.l / 100 * W, y: s.t / 100 * H }));
-    let d = `M ${pts[0].x} ${pts[0].y}`;
-    for (let i = 1; i < pts.length; i++) {
-      const cp1x = (pts[i-1].x + pts[i].x) / 2;
-      const cp1y = pts[i-1].y;
-      const cp2x = (pts[i-1].x + pts[i].x) / 2;
-      const cp2y = pts[i].y;
-      d += ` C ${cp1x} ${cp1y}, ${cp2x} ${cp2y}, ${pts[i].x} ${pts[i].y}`;
+  function moveBallTo(p, instant = false) {
+    const [x, y] = p;
+    if (instant) {
+      ball.setAttribute('cx', x);
+      ball.setAttribute('cy', y);
+      return;
     }
-    path.setAttribute('d', d);
+    const fromX = parseFloat(ball.getAttribute('cx'));
+    const fromY = parseFloat(ball.getAttribute('cy'));
+    const duration = 520;
+    const start = performance.now();
+
+    function tick(now) {
+      const t = Math.min(1, (now - start) / duration);
+      const ease = t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2;
+      const cx = fromX + (x - fromX) * ease;
+      const cy = fromY + (y - fromY) * ease;
+      ball.setAttribute('cx', cx);
+      ball.setAttribute('cy', cy);
+      drawTrail(cx, cy);
+      if (t < 1) requestAnimationFrame(tick);
+    }
+    requestAnimationFrame(tick);
   }
 
-  btn.addEventListener('click', playServe);
+  function renderPathGhost() {
+    const pts = motions[key].steps.map(s => s.p);
+    const d = pts.map((p, i) => `${i === 0 ? 'M' : 'L'} ${p[0]} ${p[1]}`).join(' ');
+    pathGhost.setAttribute('d', d);
+  }
 
-  // Draw initial path
-  drawServePath(court);
+  function renderInfo() {
+    const m = motions[key];
+    titleEl.textContent = m.title;
+    descEl.textContent = m.desc;
+    stepsEl.innerHTML = m.steps.map((s, i) => `
+      <button class="motion-step-chip${i === step ? ' is-active' : ''}" data-step="${i}">
+        <span class="chip-index">${i + 1}</span>${s.text}
+      </button>
+    `).join('');
+    btnT1.dataset.reason = m.reason;
+    btnT2.dataset.reason = m.reason;
+  }
+
+  function renderStep() {
+    const m = motions[key];
+    const max = m.steps.length - 1;
+    range.max = String(max);
+    range.value = String(step);
+    stepLabel.textContent = `Adım ${step + 1}: ${m.steps[step].text}`;
+    moveBallTo(m.steps[step].p, true);
+    renderInfo();
+  }
+
+  async function playAll() {
+    if (animating) return;
+    animating = true;
+    playBtn.classList.add('is-playing');
+    playBtn.textContent = 'Oynatılıyor...';
+    for (let i = step; i < motions[key].steps.length; i++) {
+      step = i;
+      range.value = String(step);
+      stepLabel.textContent = `Adım ${step + 1}: ${motions[key].steps[step].text}`;
+      moveBallTo(motions[key].steps[step].p, i === 0);
+      await delay(560);
+      if (!animating) break;
+    }
+    animating = false;
+    playBtn.classList.remove('is-playing');
+    playBtn.textContent = 'Animasyonu Oynat';
+    renderInfo();
+  }
+
+  tabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+      tabs.forEach(t => t.classList.remove('is-active'));
+      tab.classList.add('is-active');
+      key = tab.dataset.motion;
+      step = 0;
+      animating = false;
+      playBtn.classList.remove('is-playing');
+      playBtn.textContent = 'Animasyonu Oynat';
+      renderPathGhost();
+      renderStep();
+    });
+  });
+
+  stepsEl.addEventListener('click', e => {
+    const chip = e.target.closest('.motion-step-chip');
+    if (!chip) return;
+    step = Number(chip.dataset.step);
+    renderStep();
+  });
+
+  playBtn.addEventListener('click', playAll);
+  prevBtn.addEventListener('click', () => {
+    step = Math.max(0, step - 1);
+    renderStep();
+  });
+  nextBtn.addEventListener('click', () => {
+    step = Math.min(motions[key].steps.length - 1, step + 1);
+    renderStep();
+  });
+  range.addEventListener('input', () => {
+    step = Number(range.value);
+    renderStep();
+  });
+
+  renderPathGhost();
+  renderStep();
 })();
 
-/* ─── 6. Wall Shot Animation ─────────────────────────────────── */
-(function initWallAnimation() {
-  const btn   = document.getElementById('btnWall');
-  const court = document.getElementById('wallCourt');
-  const ball  = document.getElementById('wallBall');
-  const b1    = document.getElementById('wallBounce1');
-  const b2    = document.getElementById('wallBounce2');
-
-  if (!btn || !court || !ball) return;
-
-  let running = false;
-
-  // Steps: attacker hits from top, ball comes toward bottom-back-wall,
-  // bounces off back wall, defender hits back over
-  const steps = [
-    { l: 50, t: 14, d: 0,   e: 'linear' },      // start: attacker top
-    { l: 36, t: 72, d: 420, e: 'ease-in' },      // crosses net, lands in defender's court
-    { l: 30, t: 91, d: 320, e: 'ease-out' },     // hits back wall
-    { l: 36, t: 72, d: 280, e: 'ease-in-out' },  // rebounds from wall
-    { l: 28, t: 60, d: 300, e: 'ease-in' },      // defender hits
-    { l: 50, t: 42, d: 350, e: 'ease-out' },     // crosses net
-    { l: 60, t: 20, d: 320, e: 'ease-in' },      // lands in top half
-  ];
-
-  const bouncePositions = [
-    { el: b1, l: 36, t: 72 },
-    { el: b2, l: 30, t: 91 },
-  ];
-
-  function resetAnim() {
-    ball.style.transition = 'none';
-    ball.style.opacity = '0';
-    ball.style.left = steps[0].l + '%';
-    ball.style.top  = steps[0].t + '%';
-    [b1, b2].forEach(b => { b.style.opacity = '0'; });
-    drawWallPath(court);
-  }
-
-  async function playWall() {
-    if (running) return;
-    running = true;
-    btn.classList.add('is-playing');
-    btn.textContent = '⏹ Durdur';
-
-    resetAnim();
-
-    await delay(50);
-    ball.style.transition = 'opacity 0.2s ease';
-    ball.style.opacity = '1';
-    await delay(200);
-
-    for (let i = 1; i < steps.length; i++) {
-      const s = steps[i];
-      ball.style.transition = `left ${s.d}ms ${s.e}, top ${s.d}ms ${s.e}, box-shadow 0.15s`;
-      ball.style.left = s.l + '%';
-      ball.style.top  = s.t + '%';
-      await delay(s.d);
-
-      if (i === 1) showBounce(b1, bouncePositions[0]);
-      if (i === 2) {
-        // Wall impact flash
-        ball.style.boxShadow = '0 0 20px rgba(0,150,214,1), 0 0 40px rgba(0,150,214,0.8)';
-        showBounce(b2, bouncePositions[1]);
-        await delay(80);
-        ball.style.boxShadow = '';
-      }
-    }
-
-    await delay(500);
-    ball.style.transition = 'opacity 0.3s ease';
-    ball.style.opacity = '0';
-    await delay(300);
-
-    running = false;
-    btn.classList.remove('is-playing');
-    btn.innerHTML = '<svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg> Duvar Vuruşunu İzle';
-  }
-
-  function showBounce(el, pos) {
-    el.style.left = pos.l + '%';
-    el.style.top  = pos.t + '%';
-    el.style.transition = 'opacity 0.1s ease, transform 0.3s ease';
-    el.style.opacity = '1';
-    el.style.transform = 'translate(-50%, -50%) scale(1)';
-    el.style.borderColor = '#0096d6';
-    setTimeout(() => {
-      el.style.transform = 'translate(-50%, -50%) scale(2.2)';
-      el.style.opacity = '0';
-    }, 120);
-    setTimeout(() => {
-      el.style.transform = 'translate(-50%, -50%) scale(1)';
-    }, 420);
-  }
-
-  function drawWallPath(container) {
-    const svg  = container.querySelector('#wallTrajectory');
-    const path = container.querySelector('#wallPath');
-    if (!svg || !path) return;
-
-    const W = 300, H = 600;
-    const pts = steps.map(s => ({ x: s.l / 100 * W, y: s.t / 100 * H }));
-    let d = `M ${pts[0].x} ${pts[0].y}`;
-    for (let i = 1; i < pts.length; i++) {
-      const cp1x = (pts[i-1].x + pts[i].x) / 2;
-      const cp1y = pts[i-1].y;
-      const cp2x = (pts[i-1].x + pts[i].x) / 2;
-      const cp2y = pts[i].y;
-      d += ` C ${cp1x} ${cp1y}, ${cp2x} ${cp2y}, ${pts[i].x} ${pts[i].y}`;
-    }
-    path.setAttribute('d', d);
-  }
-
-  btn.addEventListener('click', playWall);
-  drawWallPath(court);
-})();
-
-/* ─── 7. Utility: Promise-based delay ───────────────────────── */
+/* ─── 6. Utility: Promise-based delay ───────────────────────── */
 function delay(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
