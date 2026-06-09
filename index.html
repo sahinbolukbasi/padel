@@ -29,6 +29,7 @@
         <li><a href="#mechanics">Mekanikler</a></li>
         <li><a href="#rules">Kurallar</a></li>
         <li><a href="#formats">Format</a></li>
+        <li><a href="#score-tracker">Skor</a></li>
         <li><a href="#faults">Fauller</a></li>
       </ul>
     </div>
@@ -315,6 +316,13 @@
               <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
               Servisi İzle
             </button>
+            <div class="score-award-btns" data-reason="Doğru Servis">
+              <span class="score-award-label">Bu vuruş için puan ver:</span>
+              <div class="score-award-row">
+                <button class="btn-score btn-score--t1" data-team="1" data-reason="Doğru Servis">🏆 T1 Puan</button>
+                <button class="btn-score btn-score--t2" data-team="2" data-reason="Doğru Servis">🏆 T2 Puan</button>
+              </div>
+            </div>
           </div>
           <div class="mechanic-court-wrap">
             <div class="mechanic-court" id="serveCourt">
@@ -373,6 +381,13 @@
               <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
               Duvar Vuruşunu İzle
             </button>
+            <div class="score-award-btns" data-reason="Duvarı Kullanmak">
+              <span class="score-award-label">Bu vuruş için puan ver:</span>
+              <div class="score-award-row">
+                <button class="btn-score btn-score--t1" data-team="1" data-reason="Duvarı Kullanmak">🏆 T1 Puan</button>
+                <button class="btn-score btn-score--t2" data-team="2" data-reason="Duvarı Kullanmak">🏆 T2 Puan</button>
+              </div>
+            </div>
           </div>
           <div class="mechanic-court-wrap">
             <div class="mechanic-court" id="wallCourt">
@@ -401,6 +416,77 @@
                 <path id="wallPath" d="" fill="none" stroke="rgba(0,119,182,0.3)" stroke-width="2" stroke-dasharray="6,4"/>
               </svg>
             </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════
+       SCORE TRACKER — ANLIK SKOR
+  ═══════════════════════════════════════════ -->
+  <section class="section" id="score-tracker">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-tag">Anlık Skor</div>
+        <h2 class="section-title">Skor Takibi</h2>
+        <p class="section-desc">Mekanik ve faul butonlarıyla puan ekle — Padel kuralları otomatik uygulanır.</p>
+      </div>
+
+      <div class="st-inner">
+
+        <!-- Glassmorphism Scoreboard -->
+        <div class="scoreboard" id="scoreboard">
+          <div class="sb-header-row">
+            <div class="sb-col sb-col--name"></div>
+            <div class="sb-col sb-col--set">SET 1</div>
+            <div class="sb-col sb-col--set">SET 2</div>
+            <div class="sb-col sb-col--set">SET 3</div>
+            <div class="sb-col sb-col--games">OYUN</div>
+            <div class="sb-col sb-col--point">PUAN</div>
+          </div>
+          <div class="sb-team-row" id="sbRow1">
+            <div class="sb-col sb-col--name">
+              <span class="sb-dot sb-dot--1"></span>
+              <span class="sb-team-label">Takım 1</span>
+            </div>
+            <div class="sb-col sb-col--set" id="sb1s0">0</div>
+            <div class="sb-col sb-col--set sb-col--inactive" id="sb1s1">-</div>
+            <div class="sb-col sb-col--set sb-col--inactive" id="sb1s2">-</div>
+            <div class="sb-col sb-col--games" id="sb1g">0</div>
+            <div class="sb-col sb-col--point" id="sb1p">0</div>
+          </div>
+          <div class="sb-divider-row">
+            <div class="sb-status-badge" id="sbStatus">HAZIR</div>
+          </div>
+          <div class="sb-team-row" id="sbRow2">
+            <div class="sb-col sb-col--name">
+              <span class="sb-dot sb-dot--2"></span>
+              <span class="sb-team-label">Takım 2</span>
+            </div>
+            <div class="sb-col sb-col--set" id="sb2s0">0</div>
+            <div class="sb-col sb-col--set sb-col--inactive" id="sb2s1">-</div>
+            <div class="sb-col sb-col--set sb-col--inactive" id="sb2s2">-</div>
+            <div class="sb-col sb-col--games" id="sb2g">0</div>
+            <div class="sb-col sb-col--point" id="sb2p">0</div>
+          </div>
+        </div>
+
+        <!-- Log Panel -->
+        <div class="score-log-panel">
+          <div class="slp-header">
+            <span class="slp-title">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M3 5h18v2H3V5zm0 7h18v-2H3v2zm0 7h18v-2H3v2z"/></svg>
+              Puan Geçmişi
+            </span>
+            <button class="btn-reset" id="btnResetScore" title="Skorları sıfırla">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 5V1L7 6l5 5V7c3.31 0 6 2.69 6 6s-2.69 6-6 6-6-2.69-6-6H4c0 4.42 3.58 8 8 8s8-3.58 8-8-3.58-8-8-8z"/></svg>
+              Sıfırla
+            </button>
+          </div>
+          <div class="slp-list" id="slpList" role="log" aria-live="polite">
+            <div class="slp-empty">Henüz puan yok. Aşağıdaki bölümlerdeki <strong>"T1/T2 Puan"</strong> butonlarını kullan.</div>
           </div>
         </div>
 
@@ -700,6 +786,13 @@
               <br />
               <span class="fault-example-right">✓ Doğru:</span> File → Zemin sekme → Cam → Oyun devam
             </div>
+            <div class="score-award-btns score-award-btns--fault">
+              <span class="score-award-label">Puan kazanan takım:</span>
+              <div class="score-award-row">
+                <button class="btn-score btn-score--t1" data-team="1" data-reason="Topun Doğrudan Cama Vurması (Hata)">🏆 T1 Puan</button>
+                <button class="btn-score btn-score--t2" data-team="2" data-reason="Topun Doğrudan Cama Vurması (Hata)">🏆 T2 Puan</button>
+              </div>
+            </div>
           </div>
         </div>
 
@@ -720,6 +813,13 @@
               <span class="fault-example-wrong">✗ Yanlış:</span> Top 2. kez yere değdi → vurdun → Puan kaybı
               <br />
               <span class="fault-example-right">✓ Doğru:</span> 1. sekeden hemen sonra vur
+            </div>
+            <div class="score-award-btns score-award-btns--fault">
+              <span class="score-award-label">Puan kazanan takım:</span>
+              <div class="score-award-row">
+                <button class="btn-score btn-score--t1" data-team="1" data-reason="Kendi Sahasında İki Sekme (Hata)">🏆 T1 Puan</button>
+                <button class="btn-score btn-score--t2" data-team="2" data-reason="Kendi Sahasında İki Sekme (Hata)">🏆 T2 Puan</button>
+              </div>
             </div>
           </div>
         </div>
@@ -742,6 +842,13 @@
               <br />
               <span class="fault-example-right">✓ Özel:</span> Servis topunun file bandına değip karşıya geçmesi → Servis tekrarı (Let)
             </div>
+            <div class="score-award-btns score-award-btns--fault">
+              <span class="score-award-label">Puan kazanan takım:</span>
+              <div class="score-award-row">
+                <button class="btn-score btn-score--t1" data-team="1" data-reason="Fileye Temas (Hata)">🏆 T1 Puan</button>
+                <button class="btn-score btn-score--t2" data-team="2" data-reason="Fileye Temas (Hata)">🏆 T2 Puan</button>
+              </div>
+            </div>
           </div>
         </div>
 
@@ -762,6 +869,13 @@
               <span class="fault-example-wrong">✗ Yanlış:</span> Top yan telin üstünden dışarı çıktı → Hata
               <br />
               <span class="fault-example-right">✓ Doğru:</span> Top tel içinde kalmalı, seken top geçerli
+            </div>
+            <div class="score-award-btns score-award-btns--fault">
+              <span class="score-award-label">Puan kazanan takım:</span>
+              <div class="score-award-row">
+                <button class="btn-score btn-score--t1" data-team="1" data-reason="Topun Sahanın Dışına Çıkması (Hata)">🏆 T1 Puan</button>
+                <button class="btn-score btn-score--t2" data-team="2" data-reason="Topun Sahanın Dışına Çıkması (Hata)">🏆 T2 Puan</button>
+              </div>
             </div>
           </div>
         </div>
@@ -784,6 +898,13 @@
               <br />
               <span class="fault-example-right">✓ Doğru:</span> Tek, temiz ve net vuruş
             </div>
+            <div class="score-award-btns score-award-btns--fault">
+              <span class="score-award-label">Puan kazanan takım:</span>
+              <div class="score-award-row">
+                <button class="btn-score btn-score--t1" data-team="1" data-reason="Çift Vuruş / Taşıma (Hata)">🏆 T1 Puan</button>
+                <button class="btn-score btn-score--t2" data-team="2" data-reason="Çift Vuruş / Taşıma (Hata)">🏆 T2 Puan</button>
+              </div>
+            </div>
           </div>
         </div>
 
@@ -804,6 +925,13 @@
               <span class="fault-example-wrong">✗ Yanlış:</span> Top oyuncunun koluna değdi → Rakip puan alır
               <br />
               <span class="fault-example-right">✓ Doğru:</span> Sadece raket yüzeyi ile temas
+            </div>
+            <div class="score-award-btns score-award-btns--fault">
+              <span class="score-award-label">Puan kazanan takım:</span>
+              <div class="score-award-row">
+                <button class="btn-score btn-score--t1" data-team="1" data-reason="Bedenle Topa Değme (Hata)">🏆 T1 Puan</button>
+                <button class="btn-score btn-score--t2" data-team="2" data-reason="Bedenle Topa Değme (Hata)">🏆 T2 Puan</button>
+              </div>
             </div>
           </div>
         </div>
@@ -835,6 +963,92 @@
 
   <!-- Tooltip overlay (mobile) -->
   <div class="tooltip-overlay" id="tooltipOverlay"></div>
+
+  <!-- ═══════════════════════════════════════════
+       GEMINI AI CHAT WIDGET
+  ═══════════════════════════════════════════ -->
+  <div class="chat-widget" id="chatWidget">
+
+    <!-- FAB Toggle Button -->
+    <button class="chat-fab" id="chatFab" aria-label="AI Padel Asistanı">
+      <svg class="chat-fab-icon chat-fab-icon--open" width="26" height="26" viewBox="0 0 24 24" fill="currentColor"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-2 12H6v-2h12v2zm0-3H6V9h12v2zm0-3H6V6h12v2z"/></svg>
+      <svg class="chat-fab-icon chat-fab-icon--close" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="display:none"><path d="M18 6 6 18M6 6l12 12"/></svg>
+      <span class="chat-fab-badge" id="chatFabBadge" style="display:none">!</span>
+    </button>
+
+    <!-- Chat Window -->
+    <div class="chat-window" id="chatWindow" aria-hidden="true">
+
+      <!-- Header -->
+      <div class="cw-header">
+        <div class="cw-header-left">
+          <div class="cw-avatar">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
+          </div>
+          <div>
+            <div class="cw-title">Padel AI Asistanı</div>
+            <div class="cw-subtitle" id="cwSubtitle">API anahtarı gerekli</div>
+          </div>
+        </div>
+        <button class="cw-close" id="chatClose" aria-label="Kapat">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 6 6 18M6 6l12 12"/></svg>
+        </button>
+      </div>
+
+      <!-- API Key Panel -->
+      <div class="cw-apikey-panel" id="cwApikeyPanel">
+        <div class="cw-apikey-icon">🔑</div>
+        <h4>Gemini API Anahtarı</h4>
+        <p>AI asistanını aktif etmek için Google AI Studio'dan ücretsiz API anahtarı girin.</p>
+        <div class="cw-apikey-field">
+          <input
+            type="password"
+            id="cwApiKeyInput"
+            placeholder="AIza... API Anahtarınız"
+            autocomplete="off"
+            spellcheck="false"
+          />
+          <button class="cw-apikey-save" id="cwApiKeySave">Kaydet</button>
+        </div>
+        <div class="cw-apikey-hint">
+          <a href="https://aistudio.google.com/app/apikey" target="_blank" rel="noopener noreferrer">→ Ücretsiz API anahtarı al (aistudio.google.com)</a>
+        </div>
+      </div>
+
+      <!-- Messages -->
+      <div class="cw-messages" id="cwMessages" role="log" aria-live="polite">
+        <div class="cw-msg cw-msg--bot">
+          <div class="cw-msg-avatar">🤖</div>
+          <div class="cw-msg-bubble">
+            Merhaba! Ben Padel AI Asistanı. Padel kuralları, teknikler ve stratejiler hakkında her soruyu yanıtlarım. Ne öğrenmek istersiniz? 🎾
+          </div>
+        </div>
+      </div>
+
+      <!-- API key change bar -->
+      <div class="cw-keybar" id="cwKeybar" style="display:none">
+        <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/></svg>
+        API anahtarı ayarlı
+        <button class="cw-keybar-change" id="cwKeybarChange">Değiştir</button>
+      </div>
+
+      <!-- Input area -->
+      <div class="cw-input-area">
+        <textarea
+          id="cwInput"
+          class="cw-textarea"
+          placeholder="Padel hakkında bir soru sor..."
+          rows="1"
+          disabled
+          aria-label="Mesaj yaz"
+        ></textarea>
+        <button class="cw-send" id="cwSend" disabled aria-label="Mesajı gönder">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
+        </button>
+      </div>
+
+    </div>
+  </div>
 
   <script src="script.js"></script>
 </body>
