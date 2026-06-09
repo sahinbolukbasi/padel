@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="description" content="Padel Skor Bord Uygulaması - Mobil Uyumlu" />
+  <title>Padel Skor Bordu</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="scoreboard.css" />
+</head>
+<body>
+  <main class="app" id="app">
+    <header class="topbar">
+      <a class="back-link" href="index.html" aria-label="Ana sayfaya dön">← Rehbere Dön</a>
+      <h1>Padel Skor Bordu</h1>
+      <button class="icon-btn" id="btnOpenSetup" title="Maç ayarlarını aç" aria-label="Ayarlar">⚙</button>
+    </header>
+
+    <section class="status-strip" id="statusStrip">
+      <div class="status-pill" id="statusText">Maç Hazır</div>
+      <div class="meta" id="metaText">Kurulum bekleniyor</div>
+    </section>
+
+    <section class="sets-board" id="setsBoard" aria-live="polite"></section>
+
+    <section class="score-zone" id="scoreZone">
+      <button class="team-panel team-panel--a" id="teamAButton" aria-label="Takım 1 puan ekle">
+        <div class="team-head">
+          <span class="team-tag">TAKIM 1</span>
+          <h2 id="teamAName">Takım 1</h2>
+        </div>
+        <div class="live-score" id="teamALive">0</div>
+        <p class="hint">Puan eklemek için dokun</p>
+      </button>
+
+      <button class="team-panel team-panel--b" id="teamBButton" aria-label="Takım 2 puan ekle">
+        <div class="team-head">
+          <span class="team-tag">TAKIM 2</span>
+          <h2 id="teamBName">Takım 2</h2>
+        </div>
+        <div class="live-score" id="teamBLive">0</div>
+        <p class="hint">Puan eklemek için dokun</p>
+      </button>
+    </section>
+
+    <footer class="control-bar">
+      <button class="control-btn control-btn--ghost" id="btnUndo">Geri Al</button>
+      <button class="control-btn control-btn--danger" id="btnReset">Maçı Bitir / Sıfırla</button>
+    </footer>
+  </main>
+
+  <section class="setup-screen is-open" id="setupScreen" aria-modal="true" role="dialog" aria-label="Maç Kurulum">
+    <div class="setup-card">
+      <h2>Maç Kurulum</h2>
+      <p class="setup-desc">Takımları ayarla, set formatını seç ve maça başla.</p>
+
+      <label class="field">
+        <span>1. Takım Adı</span>
+        <input id="inputTeamA" type="text" maxlength="26" placeholder="Örn: Neon Smash" />
+      </label>
+
+      <label class="field">
+        <span>2. Takım Adı</span>
+        <input id="inputTeamB" type="text" maxlength="26" placeholder="Örn: Blue Court" />
+      </label>
+
+      <fieldset class="format-group">
+        <legend>Kaç set üzerinden oynanacak?</legend>
+        <div class="format-options" id="formatOptions">
+          <label><input type="radio" name="matchFormat" value="1" /> <span>1 Set</span></label>
+          <label><input type="radio" name="matchFormat" value="3" checked /> <span>3 Set</span></label>
+          <label><input type="radio" name="matchFormat" value="5" /> <span>5 Set</span></label>
+        </div>
+      </fieldset>
+
+      <button class="start-btn" id="btnStartMatch">Maça Başla</button>
+    </div>
+  </section>
+
+  <section class="winner-screen" id="winnerScreen" aria-live="assertive" aria-hidden="true">
+    <canvas id="confettiCanvas"></canvas>
+    <div class="winner-card">
+      <h2>Kazanan</h2>
+      <p id="winnerName">Takım</p>
+      <button class="start-btn" id="btnNewMatch">Yeni Maç Kur</button>
+    </div>
+  </section>
+
+  <script src="scoreboard.js"></script>
+</body>
+</html>

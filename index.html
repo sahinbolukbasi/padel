@@ -29,7 +29,7 @@
         <li><a href="#mechanics">Mekanikler</a></li>
         <li><a href="#rules">Kurallar</a></li>
         <li><a href="#formats">Format</a></li>
-        <li><a href="#score-tracker">Skor</a></li>
+        <li><a href="scoreboard.html">Skor Bordu</a></li>
         <li><a href="#faults">Fauller</a></li>
       </ul>
     </div>
@@ -72,7 +72,7 @@
       </div>
       <div class="hero-cta">
         <a href="#court-map" class="btn btn--primary">Sahayı Keşfet</a>
-        <a href="#mechanics" class="btn btn--ghost">Animasyonları İzle</a>
+        <a href="scoreboard.html" class="btn btn--ghost">Skor Bordunu Aç</a>
       </div>
     </div>
     <div class="hero-scroll-hint">
@@ -229,86 +229,7 @@
           <h3 id="motionTitle">Doğru Servis</h3>
           <p id="motionDesc">Bel altı servis, çapraz kutuya düşüş ve camdan kontrollü sekme ile oyunu başlat.</p>
           <div class="motion-steps" id="motionSteps"></div>
-
-          <div class="score-award-btns" id="motionScoreBtns">
-            <span class="score-award-label">Bu pozisyon için puan ver:</span>
-            <div class="score-award-row">
-              <button class="btn-score btn-score--t1" id="motionT1" data-team="1" data-reason="Doğru Servis">🏆 T1 Puan</button>
-              <button class="btn-score btn-score--t2" id="motionT2" data-team="2" data-reason="Doğru Servis">🏆 T2 Puan</button>
-            </div>
-          </div>
         </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ═══════════════════════════════════════════
-       SCORE TRACKER — ANLIK SKOR
-  ═══════════════════════════════════════════ -->
-  <section class="section" id="score-tracker">
-    <div class="container">
-      <div class="section-header">
-        <div class="section-tag">Anlık Skor</div>
-        <h2 class="section-title">Skor Takibi</h2>
-        <p class="section-desc">Mekanik ve faul butonlarıyla puan ekle — Padel kuralları otomatik uygulanır.</p>
-      </div>
-
-      <div class="st-inner">
-
-        <!-- Glassmorphism Scoreboard -->
-        <div class="scoreboard" id="scoreboard">
-          <div class="sb-header-row">
-            <div class="sb-col sb-col--name"></div>
-            <div class="sb-col sb-col--set">SET 1</div>
-            <div class="sb-col sb-col--set">SET 2</div>
-            <div class="sb-col sb-col--set">SET 3</div>
-            <div class="sb-col sb-col--games">OYUN</div>
-            <div class="sb-col sb-col--point">PUAN</div>
-          </div>
-          <div class="sb-team-row" id="sbRow1">
-            <div class="sb-col sb-col--name">
-              <span class="sb-dot sb-dot--1"></span>
-              <span class="sb-team-label">Takım 1</span>
-            </div>
-            <div class="sb-col sb-col--set" id="sb1s0">0</div>
-            <div class="sb-col sb-col--set sb-col--inactive" id="sb1s1">-</div>
-            <div class="sb-col sb-col--set sb-col--inactive" id="sb1s2">-</div>
-            <div class="sb-col sb-col--games" id="sb1g">0</div>
-            <div class="sb-col sb-col--point" id="sb1p">0</div>
-          </div>
-          <div class="sb-divider-row">
-            <div class="sb-status-badge" id="sbStatus">HAZIR</div>
-          </div>
-          <div class="sb-team-row" id="sbRow2">
-            <div class="sb-col sb-col--name">
-              <span class="sb-dot sb-dot--2"></span>
-              <span class="sb-team-label">Takım 2</span>
-            </div>
-            <div class="sb-col sb-col--set" id="sb2s0">0</div>
-            <div class="sb-col sb-col--set sb-col--inactive" id="sb2s1">-</div>
-            <div class="sb-col sb-col--set sb-col--inactive" id="sb2s2">-</div>
-            <div class="sb-col sb-col--games" id="sb2g">0</div>
-            <div class="sb-col sb-col--point" id="sb2p">0</div>
-          </div>
-        </div>
-
-        <!-- Log Panel -->
-        <div class="score-log-panel">
-          <div class="slp-header">
-            <span class="slp-title">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M3 5h18v2H3V5zm0 7h18v-2H3v2zm0 7h18v-2H3v2z"/></svg>
-              Puan Geçmişi
-            </span>
-            <button class="btn-reset" id="btnResetScore" title="Skorları sıfırla">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 5V1L7 6l5 5V7c3.31 0 6 2.69 6 6s-2.69 6-6 6-6-2.69-6-6H4c0 4.42 3.58 8 8 8s8-3.58 8-8-3.58-8-8-8z"/></svg>
-              Sıfırla
-            </button>
-          </div>
-          <div class="slp-list" id="slpList" role="log" aria-live="polite">
-            <div class="slp-empty">Henüz puan yok. Aşağıdaki bölümlerdeki <strong>"T1/T2 Puan"</strong> butonlarını kullan.</div>
-          </div>
-        </div>
-
       </div>
     </div>
   </section>
@@ -593,13 +514,6 @@
               <br />
               <span class="fault-example-right">✓ Doğru:</span> File → Zemin sekme → Cam → Oyun devam
             </div>
-            <div class="score-award-btns score-award-btns--fault">
-              <span class="score-award-label">Puan kazanan takım:</span>
-              <div class="score-award-row">
-                <button class="btn-score btn-score--t1" data-team="1" data-reason="Topun Doğrudan Cama Vurması (Hata)">🏆 T1 Puan</button>
-                <button class="btn-score btn-score--t2" data-team="2" data-reason="Topun Doğrudan Cama Vurması (Hata)">🏆 T2 Puan</button>
-              </div>
-            </div>
           </div>
         </div>
 
@@ -620,13 +534,6 @@
               <span class="fault-example-wrong">✗ Yanlış:</span> Top 2. kez yere değdi → vurdun → Puan kaybı
               <br />
               <span class="fault-example-right">✓ Doğru:</span> 1. sekeden hemen sonra vur
-            </div>
-            <div class="score-award-btns score-award-btns--fault">
-              <span class="score-award-label">Puan kazanan takım:</span>
-              <div class="score-award-row">
-                <button class="btn-score btn-score--t1" data-team="1" data-reason="Kendi Sahasında İki Sekme (Hata)">🏆 T1 Puan</button>
-                <button class="btn-score btn-score--t2" data-team="2" data-reason="Kendi Sahasında İki Sekme (Hata)">🏆 T2 Puan</button>
-              </div>
             </div>
           </div>
         </div>
@@ -649,13 +556,6 @@
               <br />
               <span class="fault-example-right">✓ Özel:</span> Servis topunun file bandına değip karşıya geçmesi → Servis tekrarı (Let)
             </div>
-            <div class="score-award-btns score-award-btns--fault">
-              <span class="score-award-label">Puan kazanan takım:</span>
-              <div class="score-award-row">
-                <button class="btn-score btn-score--t1" data-team="1" data-reason="Fileye Temas (Hata)">🏆 T1 Puan</button>
-                <button class="btn-score btn-score--t2" data-team="2" data-reason="Fileye Temas (Hata)">🏆 T2 Puan</button>
-              </div>
-            </div>
           </div>
         </div>
 
@@ -676,13 +576,6 @@
               <span class="fault-example-wrong">✗ Yanlış:</span> Top yan telin üstünden dışarı çıktı → Hata
               <br />
               <span class="fault-example-right">✓ Doğru:</span> Top tel içinde kalmalı, seken top geçerli
-            </div>
-            <div class="score-award-btns score-award-btns--fault">
-              <span class="score-award-label">Puan kazanan takım:</span>
-              <div class="score-award-row">
-                <button class="btn-score btn-score--t1" data-team="1" data-reason="Topun Sahanın Dışına Çıkması (Hata)">🏆 T1 Puan</button>
-                <button class="btn-score btn-score--t2" data-team="2" data-reason="Topun Sahanın Dışına Çıkması (Hata)">🏆 T2 Puan</button>
-              </div>
             </div>
           </div>
         </div>
@@ -705,13 +598,6 @@
               <br />
               <span class="fault-example-right">✓ Doğru:</span> Tek, temiz ve net vuruş
             </div>
-            <div class="score-award-btns score-award-btns--fault">
-              <span class="score-award-label">Puan kazanan takım:</span>
-              <div class="score-award-row">
-                <button class="btn-score btn-score--t1" data-team="1" data-reason="Çift Vuruş / Taşıma (Hata)">🏆 T1 Puan</button>
-                <button class="btn-score btn-score--t2" data-team="2" data-reason="Çift Vuruş / Taşıma (Hata)">🏆 T2 Puan</button>
-              </div>
-            </div>
           </div>
         </div>
 
@@ -732,13 +618,6 @@
               <span class="fault-example-wrong">✗ Yanlış:</span> Top oyuncunun koluna değdi → Rakip puan alır
               <br />
               <span class="fault-example-right">✓ Doğru:</span> Sadece raket yüzeyi ile temas
-            </div>
-            <div class="score-award-btns score-award-btns--fault">
-              <span class="score-award-label">Puan kazanan takım:</span>
-              <div class="score-award-row">
-                <button class="btn-score btn-score--t1" data-team="1" data-reason="Bedenle Topa Değme (Hata)">🏆 T1 Puan</button>
-                <button class="btn-score btn-score--t2" data-team="2" data-reason="Bedenle Topa Değme (Hata)">🏆 T2 Puan</button>
-              </div>
             </div>
           </div>
         </div>
@@ -762,6 +641,7 @@
           <a href="#hero">Başa Dön</a>
           <a href="#court-map">Saha</a>
           <a href="#rules">Kurallar</a>
+          <a href="scoreboard.html">Skor Bordu</a>
           <a href="#faults">Fauller</a>
         </div>
       </div>
