@@ -51,6 +51,7 @@
 
       setResults: [],
       setWins: [0, 0],
+      eventLog: [],
     };
   }
 
@@ -71,9 +72,17 @@
     els.setupScreen.classList.remove('is-open');
   }
 
+  function resetSetupInputs() {
+    els.inputA.value = '';
+    els.inputB.value = '';
+    const selected = document.querySelector('input[name="matchFormat"][value="3"]');
+    if (selected) selected.checked = true;
+  }
+
   function resetForNewMatch() {
     state = createInitialState();
     history.length = 0;
+    resetSetupInputs();
     els.winnerScreen.classList.remove('is-open');
     els.winnerScreen.setAttribute('aria-hidden', 'true');
     stopConfetti();
@@ -92,9 +101,18 @@
     state.setsToWin = Math.ceil(bestOf / 2);
     state.started = true;
     history.length = 0;
+    state.eventLog = [];
 
     closeSetup();
+    els.winnerScreen.classList.remove('is-open');
+    els.winnerScreen.setAttribute('aria-hidden', 'true');
+    stopConfetti();
     render();
+  }
+
+  function addLog(message) {
+    state.eventLog.push(message);
+    if (state.eventLog.length > 120) state.eventLog.shift();
   }
 
   function saveSnapshot() {
@@ -111,6 +129,7 @@
   function addPoint(teamIndex) {
     if (!state.started || state.finished) return;
     saveSnapshot();
+    addLog(`${state.teamNames[teamIndex]} puan kazandı`);
 
     if (state.tiebreak) {
       state.tbPoints[teamIndex] += 1;
@@ -161,6 +180,7 @@
 
   function winGame(teamIndex) {
     state.currentGames[teamIndex] += 1;
+    addLog(`${state.teamNames[teamIndex]} oyun aldı`);
     state.currentPoints = [0, 0];
     state.advantage = null;
 
@@ -192,6 +212,7 @@
   function completeSet(winnerIdx, scoreA, scoreB) {
     state.setResults.push([scoreA, scoreB]);
     state.setWins[winnerIdx] += 1;
+    addLog(`${state.teamNames[winnerIdx]} set aldı (${scoreA}-${scoreB})`);
 
     state.currentGames = [0, 0];
     state.currentPoints = [0, 0];
@@ -202,6 +223,7 @@
     if (state.setWins[winnerIdx] >= state.setsToWin) {
       state.finished = true;
       state.winner = winnerIdx;
+      addLog(`${state.teamNames[winnerIdx]} maçı kazandı`);
       announceWinner();
     }
   }

@@ -4,7 +4,8 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <meta name="description" content="Padel Skor Bord Uygulaması - Mobil Uyumlu" />
-  <title>Padel Skor Bordu</title>
+  <title>Padel Tenisi Rehberi & Skor Bord</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='0.9em' font-size='90'%3E%F0%9F%8E%BE%3C/text%3E%3C/svg%3E" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
@@ -49,10 +50,15 @@
       <button class="control-btn control-btn--ghost" id="btnUndo">Geri Al</button>
       <button class="control-btn control-btn--danger" id="btnReset">Maçı Bitir / Sıfırla</button>
     </footer>
+
+    <footer class="app-footer">
+      <p>Geliştiren: <a class="credit-link" href="https://www.linkedin.com/in/sahinbolukbasi/" target="_blank" rel="noopener noreferrer">Şahin Bölükbaşı</a></p>
+    </footer>
   </main>
 
   <section class="setup-screen is-open" id="setupScreen" aria-modal="true" role="dialog" aria-label="Maç Kurulum">
     <div class="setup-card">
+      <a class="setup-back-link" href="index.html" aria-label="Ana sayfaya dön">⬅ Ana Sayfaya Dön</a>
       <h2>Maç Kurulum</h2>
       <p class="setup-desc">Takımları ayarla, set formatını seç ve maça başla.</p>
 
@@ -84,7 +90,7 @@
     <div class="winner-card">
       <h2>Kazanan</h2>
       <p id="winnerName">Takım</p>
-      <button class="start-btn" id="btnNewMatch">Yeni Maç Kur</button>
+      <button class="start-btn" id="btnNewMatch">Yeni Maç Başlat</button>
     </div>
   </section>
 
