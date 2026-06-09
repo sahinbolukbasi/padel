@@ -1948,6 +1948,8 @@ p, li {
   margin-bottom: 0.8rem;
   perspective: 880px;
   transform-style: preserve-3d;
+  position: relative;
+  z-index: 1;
 }
 
 .motion-svg {
@@ -1957,6 +1959,7 @@ p, li {
   aspect-ratio: 1 / 1.7;
   transform: rotateX(14deg) translateY(-4px);
   transform-origin: 50% 68%;
+  pointer-events: none;
 }
 
 #motionBall {
@@ -1992,6 +1995,8 @@ p, li {
   gap: 0.55rem;
   align-items: center;
   margin-bottom: 0.7rem;
+  position: relative;
+  z-index: 3;
 }
 
 .motion-btn {
@@ -2006,6 +2011,8 @@ p, li {
 .motion-progress-wrap {
   display: grid;
   gap: 0.35rem;
+  position: relative;
+  z-index: 3;
 }
 
 .motion-progress {
@@ -2023,6 +2030,8 @@ p, li {
   margin-top: 0.6rem;
   display: grid;
   gap: 0.35rem;
+  position: relative;
+  z-index: 3;
 }
 
 .motion-speed-label {
@@ -2235,8 +2244,8 @@ p, li {
 }
 
 @media (max-width: 420px) {
-  .chat-widget { bottom: 1rem; right: 1rem; left: 1rem; align-items: stretch; }
-  .chat-window { width: 100%; }
+  .chat-widget { bottom: 1rem; right: 1rem; left: auto; align-items: flex-end; }
+  .chat-window { width: min(360px, calc(100vw - 2rem)); }
   .chat-fab    { align-self: flex-end; }
 }
 
