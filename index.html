@@ -94,12 +94,12 @@
       <div class="section-header">
         <div class="section-tag">Saha Haritası</div>
         <h2 class="section-title">Sahayı Tanı</h2>
-        <p class="section-desc">Perspektifli profesyonel saha modelinde bölgelere dokun; sentetik çim dokusu korunurken neon vurgu ve taktik bağlamı aynı anda gör.</p>
+        <p class="section-desc">Sahayı net bir 2D düzende incele; alanların üzerine gelerek vurguyu gör ve bölgesel taktik bilgiyi hızlıca öğren.</p>
       </div>
 
       <div class="svg-court-panel">
         <div class="svg-court-wrap" id="svgCourtWrap">
-          <svg class="svg-court" id="svgCourt" viewBox="0 0 320 640" role="img" aria-label="Padel sahası üst-ön perspektif görünüm">
+          <svg class="svg-court" id="svgCourt" viewBox="0 0 320 640" role="img" aria-label="Padel sahası 2D üstten görünüm">
             <defs>
               <linearGradient id="courtSurfaceGrad" x1="0" y1="0" x2="1" y2="1">
                 <stop offset="0%" stop-color="#0d7fc0" />
@@ -137,48 +137,44 @@
                 <feDropShadow dx="0" dy="0.8" stdDeviation="0.7" flood-color="rgba(255,255,255,0.8)" flood-opacity="0.55" />
               </filter>
             </defs>
-            <polygon id="court-floor" class="court-zone" data-zone="court-floor" points="78,72 242,72 284,598 36,598" fill="url(#courtSurfaceGrad)" stroke="rgba(240,250,255,0.92)" stroke-width="3.2" />
-            <polygon points="78,72 242,72 284,598 36,598" fill="url(#monoFiber)" opacity="0.55" />
-            <polygon points="78,72 242,72 284,598 36,598" fill="url(#sandNoise)" opacity="0.32" />
+            <rect id="court-floor" class="court-zone" data-zone="court-floor" x="40" y="40" width="240" height="560" rx="14" fill="url(#courtSurfaceGrad)" stroke="rgba(240,250,255,0.92)" stroke-width="3" />
+            <rect x="40" y="40" width="240" height="560" rx="14" fill="url(#monoFiber)" opacity="0.5" />
+            <rect x="40" y="40" width="240" height="560" rx="14" fill="url(#sandNoise)" opacity="0.28" />
 
             <g class="back-glass court-zone" data-zone="back-panels">
-              <polygon points="78,46 242,46 242,72 78,72" fill="url(#glassGradV)" stroke="rgba(180,230,255,0.55)" stroke-width="1.3" />
-              <polygon points="48,576 272,576 284,598 36,598" fill="url(#glassGradV)" stroke="rgba(170,220,248,0.4)" stroke-width="1.2" />
+              <rect x="40" y="18" width="240" height="24" rx="7" fill="url(#glassGradV)" stroke="rgba(180,230,255,0.55)" stroke-width="1.2" />
+              <rect x="40" y="598" width="240" height="24" rx="7" fill="url(#glassGradV)" stroke="rgba(170,220,248,0.42)" stroke-width="1.2" />
             </g>
 
             <g class="side-mesh court-zone" data-zone="side-panels">
-              <polygon points="42,72 76,72 92,598 54,598" fill="url(#glassGradV)" opacity="0.82" />
-              <polygon points="244,72 278,72 266,598 228,598" fill="url(#glassGradV)" opacity="0.82" />
-              <polygon points="30,220 42,220 54,598 40,598" fill="url(#meshPattern)" opacity="0.86" />
-              <polygon points="278,220 290,220 280,598 266,598" fill="url(#meshPattern)" opacity="0.86" />
+              <rect x="18" y="120" width="22" height="380" rx="5" fill="url(#meshPattern)" opacity="0.9" />
+              <rect x="280" y="120" width="22" height="380" rx="5" fill="url(#meshPattern)" opacity="0.9" />
+              <rect x="40" y="40" width="14" height="560" fill="url(#glassGradV)" opacity="0.55" />
+              <rect x="266" y="40" width="14" height="560" fill="url(#glassGradV)" opacity="0.55" />
             </g>
 
-            <line x1="78" y1="72" x2="36" y2="598" stroke="rgba(255,255,255,0.88)" stroke-width="3" filter="url(#lineLift)" />
-            <line x1="242" y1="72" x2="284" y2="598" stroke="rgba(255,255,255,0.88)" stroke-width="3" filter="url(#lineLift)" />
-            <line x1="78" y1="72" x2="242" y2="72" stroke="rgba(255,255,255,0.88)" stroke-width="3" filter="url(#lineLift)" />
-            <line x1="36" y1="598" x2="284" y2="598" stroke="rgba(255,255,255,0.88)" stroke-width="3" filter="url(#lineLift)" />
-
-            <line x1="94" y1="182" x2="270" y2="182" stroke="rgba(255,255,255,0.82)" stroke-width="2.2" filter="url(#lineLift)" />
-            <line x1="52" y1="458" x2="276" y2="458" stroke="rgba(255,255,255,0.82)" stroke-width="2.2" filter="url(#lineLift)" />
-            <line x1="160" y1="72" x2="160" y2="598" stroke="rgba(255,255,255,0.34)" stroke-width="1.8" />
-            <line x1="129" y1="182" x2="138" y2="458" stroke="rgba(255,255,255,0.52)" stroke-width="1.7" filter="url(#lineLift)" />
-            <line x1="191" y1="182" x2="182" y2="458" stroke="rgba(255,255,255,0.52)" stroke-width="1.7" filter="url(#lineLift)" />
+            <line x1="40" y1="320" x2="280" y2="320" stroke="rgba(255,255,255,0.92)" stroke-width="3" filter="url(#lineLift)" />
+            <line x1="40" y1="180" x2="280" y2="180" stroke="rgba(255,255,255,0.82)" stroke-width="2" filter="url(#lineLift)" />
+            <line x1="40" y1="460" x2="280" y2="460" stroke="rgba(255,255,255,0.82)" stroke-width="2" filter="url(#lineLift)" />
+            <line x1="160" y1="40" x2="160" y2="600" stroke="rgba(255,255,255,0.35)" stroke-width="1.8" />
+            <line x1="160" y1="180" x2="160" y2="320" stroke="rgba(255,255,255,0.58)" stroke-width="1.7" />
+            <line x1="160" y1="320" x2="160" y2="460" stroke="rgba(255,255,255,0.58)" stroke-width="1.7" />
 
             <g id="player-zone" class="court-zone" data-zone="player-zone">
-              <polygon points="100,492 220,492 240,598 78,598" fill="transparent" />
+              <rect x="92" y="448" width="136" height="152" rx="10" fill="transparent" />
             </g>
 
             <g class="service-boxes court-zone" data-zone="service-boxes">
-              <polygon points="88,72 159,72 138,182 94,182" fill="transparent" />
-              <polygon points="161,72 232,72 270,182 190,182" fill="transparent" />
-              <polygon points="94,458 138,458 128,598 58,598" fill="transparent" />
-              <polygon points="182,458 190,458 262,598 192,598" fill="transparent" />
+              <rect x="40" y="40" width="120" height="140" rx="8" fill="transparent" />
+              <rect x="160" y="40" width="120" height="140" rx="8" fill="transparent" />
+              <rect x="40" y="460" width="120" height="140" rx="8" fill="transparent" />
+              <rect x="160" y="460" width="120" height="140" rx="8" fill="transparent" />
             </g>
 
             <g id="net" class="court-zone" data-zone="net">
-              <polygon points="70,308 250,308 252,332 68,332" fill="transparent" />
-              <polygon points="72,316 248,316 250,332 70,332" fill="url(#netPattern)" opacity="0.72" />
-              <polygon points="66,304 254,304 254,312 66,312" fill="rgba(248,252,255,0.95)" />
+              <rect class="net-hit" x="40" y="302" width="240" height="34" rx="7" fill="transparent" />
+              <rect x="40" y="312" width="240" height="24" fill="url(#netPattern)" opacity="0.72" />
+              <rect x="40" y="302" width="240" height="7" fill="rgba(248,252,255,0.95)" />
             </g>
           </svg>
         </div>
@@ -259,7 +255,7 @@
 
           <div class="motion-controls">
             <button class="motion-btn" id="motionPrev" aria-label="Önceki adım">◀</button>
-            <button class="btn btn--primary" id="motionPlay">Animasyonu Oynat</button>
+            <button class="btn btn--primary" id="motionPlay">Animasyonu Oyna</button>
             <button class="motion-btn" id="motionNext" aria-label="Sonraki adım">▶</button>
           </div>
 

@@ -1699,8 +1699,8 @@ p, li {
     0 24px 55px rgba(0, 0, 0, 0.44),
     0 0 34px rgba(0,119,182,0.23),
     inset 0 0 0 1px rgba(255,255,255,0.04);
-  perspective: 980px;
-  transform-style: preserve-3d;
+  perspective: none;
+  transform-style: flat;
 }
 
 .svg-court {
@@ -1708,8 +1708,8 @@ p, li {
   height: auto;
   border-radius: 18px;
   display: block;
-  transform: rotateX(10deg) rotateZ(0deg);
-  transform-origin: 50% 66%;
+  transform: none;
+  transform-origin: center;
   filter: drop-shadow(0 18px 24px rgba(0,0,0,0.38));
 }
 
@@ -1745,12 +1745,20 @@ p, li {
 #player-zone.is-active polygon,
 .service-boxes:hover polygon,
 .service-boxes.is-active polygon,
-#net:hover polygon:first-child,
-#net.is-active polygon:first-child,
+#player-zone:hover rect,
+#player-zone.is-active rect,
+.service-boxes:hover rect,
+.service-boxes.is-active rect,
+#net:hover .net-hit,
+#net.is-active .net-hit,
 .back-glass:hover polygon,
 .back-glass.is-active polygon,
+.back-glass:hover rect,
+.back-glass.is-active rect,
 .side-mesh:hover polygon,
-.side-mesh.is-active polygon {
+.side-mesh.is-active polygon,
+.side-mesh:hover rect,
+.side-mesh.is-active rect {
   fill: rgba(204,255,0,0.14);
   stroke: rgba(204,255,0,0.7);
   stroke-width: 1.7;
@@ -2106,7 +2114,7 @@ p, li {
 
 @media (max-width: 768px) {
   .svg-court {
-    transform: rotateX(8deg) rotateZ(0deg);
+    transform: none;
   }
 
   .motion-svg {

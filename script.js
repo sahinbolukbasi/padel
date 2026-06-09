@@ -334,7 +334,6 @@
   let key = 'serve';
   let step = 0;
   let animating = false;
-  let isAutoLoop = true;
   let runToken = 0;
   let speedScale = 1;
   const activeTrails = [];
@@ -558,10 +557,14 @@
 
   async function playAll() {
     if (animating) return;
+    if (step >= motions[key].steps.length - 1) {
+      step = 0;
+      clearTrails();
+      renderStep();
+    }
     animating = true;
     runToken += 1;
     const token = runToken;
-    restartLoopTimer();
     playBtn.classList.add('is-playing');
     playBtn.textContent = 'Oynatılıyor...';
 
@@ -589,7 +592,7 @@
 
     animating = false;
     playBtn.classList.remove('is-playing');
-    playBtn.textContent = isAutoLoop ? 'Animasyon Döngüde' : 'Animasyonu Oynat';
+    playBtn.textContent = 'Tekrar Oyna';
     renderInfo();
   }
 
@@ -603,10 +606,9 @@
       runToken += 1;
       clearTrails();
       playBtn.classList.remove('is-playing');
-      playBtn.textContent = 'Animasyon Döngüde';
+      playBtn.textContent = 'Animasyonu Oyna';
       renderPathGhost();
       renderStep();
-      playAll();
     });
   });
 
@@ -642,23 +644,14 @@
     runToken += 1;
     animating = false;
     clearTrails();
-    playAll();
-  });
-
-  loopTimer.addEventListener('animationend', () => {
-    if (!isAutoLoop || animating) return;
-    restartLoopTimer();
-    step = 0;
-    clearTrails();
+    playBtn.textContent = 'Animasyonu Oyna';
     renderStep();
-    playAll();
   });
 
   renderPathGhost();
   renderStep();
   updateSpeedUi();
-  playBtn.textContent = 'Animasyon Döngüde';
-  playAll();
+  playBtn.textContent = 'Animasyonu Oyna';
 })();
 
 /* ─── 6. Utility: Promise-based delay ───────────────────────── */
