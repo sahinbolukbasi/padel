@@ -1,0 +1,841 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Padel Tenisi Rehberi — Kurallar, Saha Haritası, Oyun Mekaniği ve Daha Fazlası" />
+  <title>Padel'i Keşfet — Türkiye'nin Padel Rehberi</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+</head>
+<body>
+
+  <!-- ═══════════════════════════════════════════
+       NAVIGATION
+  ═══════════════════════════════════════════ -->
+  <nav class="navbar" id="navbar">
+    <div class="nav-inner">
+      <a href="#hero" class="nav-logo">
+        <span class="logo-ball">⬤</span>
+        PADEL<span class="logo-accent">TR</span>
+      </a>
+      <button class="nav-toggle" id="navToggle" aria-label="Menüyü aç/kapat">
+        <span></span><span></span><span></span>
+      </button>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="#court-map">Saha</a></li>
+        <li><a href="#mechanics">Mekanikler</a></li>
+        <li><a href="#rules">Kurallar</a></li>
+        <li><a href="#formats">Format</a></li>
+        <li><a href="#faults">Fauller</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- ═══════════════════════════════════════════
+       1. HERO BÖLÜMİ
+  ═══════════════════════════════════════════ -->
+  <section class="hero" id="hero">
+    <div class="hero-bg">
+      <div class="hero-orb hero-orb--1"></div>
+      <div class="hero-orb hero-orb--2"></div>
+      <div class="hero-grid-lines"></div>
+    </div>
+    <div class="hero-content">
+      <div class="hero-badge">🎾 Yeni Nesil Raket Sporu</div>
+      <h1 class="hero-title">
+        Padel'i<br />
+        <span class="hero-title--accent">Keşfet</span>
+      </h1>
+      <p class="hero-subtitle">
+        Tenis ile squash'ın mükemmel birleşimi. Dünyanın en hızlı büyüyen sporu artık Türkiye'de. 
+        Sahadaki her noktayı öğren, ilk günden sahaya çık.
+      </p>
+      <div class="hero-stats">
+        <div class="stat-item">
+          <span class="stat-number">30M+</span>
+          <span class="stat-label">Dünya Geneli Oyuncu</span>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat-item">
+          <span class="stat-number">90%</span>
+          <span class="stat-label">Çiftler Formatı</span>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat-item">
+          <span class="stat-number">10×20m</span>
+          <span class="stat-label">Standart Saha</span>
+        </div>
+      </div>
+      <div class="hero-cta">
+        <a href="#court-map" class="btn btn--primary">Sahayı Keşfet</a>
+        <a href="#mechanics" class="btn btn--ghost">Animasyonları İzle</a>
+      </div>
+    </div>
+    <div class="hero-scroll-hint">
+      <span>Keşfetmek için kaydır</span>
+      <div class="scroll-arrow">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+          <path d="M12 5v14M5 12l7 7 7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════
+       2. İNTERAKTİF SAHA HARİTASI
+  ═══════════════════════════════════════════ -->
+  <section class="section" id="court-map">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-tag">Saha Haritası</div>
+        <h2 class="section-title">Sahayı Tanı</h2>
+        <p class="section-desc">Üzerine geldiğiniz veya tıkladığınız alanlarda detaylı bilgi ve ölçüler görüntülenir.</p>
+      </div>
+
+      <div class="court-wrapper">
+        <div class="court" id="court">
+
+          <!-- Saha zemini -->
+          <div class="court-surface"></div>
+
+          <!-- Orta file -->
+          <div class="court-net" data-hotspot="net">
+            <div class="hotspot-label">FİLE</div>
+            <div class="tooltip" role="tooltip">
+              <h3>File (Net)</h3>
+              <p>Ortada sahanın genişliği boyunca uzanan file. Ortada <strong>88 cm</strong>, kenarlarda <strong>92 cm</strong> yüksekliğindedir.</p>
+              <ul>
+                <li>Top fileden geçmeli</li>
+                <li>File direğine çarparsa hata</li>
+                <li>Sahanın ortasında yer alır</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Üst yarı (rakip saha) -->
+          <div class="court-half court-half--top">
+            <!-- Servis kutuları üst -->
+            <div class="service-box service-box--top-left" data-hotspot="service-box-tl">
+              <div class="hotspot-label">SERVİS KUTUSU</div>
+              <div class="tooltip" role="tooltip">
+                <h3>Servis Kutusu (Sol)</h3>
+                <p>Rakip sahasının sol servis alanı. <strong>5×3m</strong> boyutlarındadır.</p>
+                <ul>
+                  <li>Servis bu kutuya düşmeli</li>
+                  <li>Çapraz atış gereklidir</li>
+                  <li>Servis çizgisi sınırı var</li>
+                </ul>
+              </div>
+            </div>
+            <div class="service-box service-box--top-right" data-hotspot="service-box-tr">
+              <div class="hotspot-label">SERVİS KUTUSU</div>
+              <div class="tooltip" role="tooltip">
+                <h3>Servis Kutusu (Sağ)</h3>
+                <p>Rakip sahasının sağ servis alanı. <strong>5×3m</strong> boyutlarındadır.</p>
+                <ul>
+                  <li>Sağdan serviste bu kutuya atılır</li>
+                  <li>Top çizgiye değse geçerlidir</li>
+                </ul>
+              </div>
+            </div>
+            <!-- Servis çizgisi üst -->
+            <div class="service-line service-line--top" data-hotspot="service-line-top">
+              <div class="hotspot-label">SERVİS ÇİZGİSİ</div>
+              <div class="tooltip" role="tooltip">
+                <h3>Servis Çizgisi</h3>
+                <p>Fileden <strong>3 metre</strong> uzaklıktaki paralel çizgi. Servis bu çizginin önüne düşmelidir.</p>
+                <ul>
+                  <li>Servis top bu hattın önünde sektirilmeli</li>
+                  <li>Hatların üzerindeki atışlar geçerli sayılır</li>
+                </ul>
+              </div>
+            </div>
+            <!-- Arka cam üst -->
+            <div class="back-glass back-glass--top" data-hotspot="back-glass-top">
+              <div class="hotspot-label">ARKA CAM</div>
+              <div class="tooltip tooltip--bottom" role="tooltip">
+                <h3>Arka Cam / Duvar</h3>
+                <p>Sahanın arka bölümünü çevreleyen <strong>3-4 metre</strong> yüksekliğindeki cam/duvar.</p>
+                <ul>
+                  <li>Top camdan sekebilir — oyun devam eder</li>
+                  <li>Top buraya çarpmadan önce yere çarpmış olmalı</li>
+                  <li>Sahanın en stratejik noktası!</li>
+                </ul>
+              </div>
+            </div>
+            <!-- Yan teller üst -->
+            <div class="side-wall side-wall--top-left" data-hotspot="side-wall-tl">
+              <div class="tooltip tooltip--right" role="tooltip">
+                <h3>Yan Tel / Cam</h3>
+                <p>Sahanın yan taraflarını çevreleyen <strong>3-4 metre</strong> yüksekliğindeki tel/cam yapı.</p>
+                <ul>
+                  <li>Toplar buradan da sekebilir</li>
+                  <li>Duvar oyunu padelin özüdür</li>
+                </ul>
+              </div>
+            </div>
+            <div class="side-wall side-wall--top-right" data-hotspot="side-wall-tr">
+              <div class="tooltip tooltip--left" role="tooltip">
+                <h3>Yan Tel / Cam</h3>
+                <p>Sahanın yan taraflarını çevreleyen <strong>3-4 metre</strong> yüksekliğindeki tel/cam yapı.</p>
+                <ul>
+                  <li>Toplar buradan da sekebilir</li>
+                  <li>Duvar oyunu padelin özüdür</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <!-- Alt yarı (kendi saha) -->
+          <div class="court-half court-half--bottom">
+            <!-- Servis kutuları alt -->
+            <div class="service-box service-box--bottom-left" data-hotspot="service-box-bl">
+              <div class="hotspot-label">SERVİS KUTUSU</div>
+              <div class="tooltip tooltip--top" role="tooltip">
+                <h3>Servis Kutusu (Sol)</h3>
+                <p>Kendi sahanızın sol servis alanı. Servis buradaki çizginin arkasından atılır.</p>
+                <ul>
+                  <li>Servis atışı bu alandan yapılır</li>
+                  <li>Bel altı vurma zorunluluğu</li>
+                </ul>
+              </div>
+            </div>
+            <div class="service-box service-box--bottom-right" data-hotspot="service-box-br">
+              <div class="hotspot-label">SERVİS KUTUSU</div>
+              <div class="tooltip tooltip--top" role="tooltip">
+                <h3>Servis Kutusu (Sağ)</h3>
+                <p>Kendi sahanızın sağ servis alanı.</p>
+                <ul>
+                  <li>Sağdan servis bu alandan yapılır</li>
+                  <li>Bel altı vurma zorunluluğu</li>
+                </ul>
+              </div>
+            </div>
+            <!-- Servis çizgisi alt -->
+            <div class="service-line service-line--bottom" data-hotspot="service-line-bottom">
+              <div class="hotspot-label">SERVİS ÇİZGİSİ</div>
+              <div class="tooltip tooltip--top" role="tooltip">
+                <h3>Servis Çizgisi</h3>
+                <p>Fileden <strong>3 metre</strong> uzaklıkta yer alır. Servis atarken bu çizginin arkasına geçilmez.</p>
+              </div>
+            </div>
+            <!-- Arka cam alt -->
+            <div class="back-glass back-glass--bottom" data-hotspot="back-glass-bottom">
+              <div class="hotspot-label">ARKA CAM</div>
+              <div class="tooltip tooltip--top" role="tooltip">
+                <h3>Arka Cam / Duvar</h3>
+                <p>Savunma ve hücum stratejisinin merkezindeki alan. Rakip vuruşları buradan sekebilir.</p>
+                <ul>
+                  <li>Camdan sekme: oyun devam eder</li>
+                  <li>Direkt vuruş: hata (rakip puan alır)</li>
+                </ul>
+              </div>
+            </div>
+            <!-- Yan teller alt -->
+            <div class="side-wall side-wall--bottom-left" data-hotspot="side-wall-bl">
+              <div class="tooltip tooltip--right" role="tooltip">
+                <h3>Yan Tel / Cam</h3>
+                <p>Sol yan duvar. Stratejik vuruşlar için kullanılabilir.</p>
+              </div>
+            </div>
+            <div class="side-wall side-wall--bottom-right" data-hotspot="side-wall-br">
+              <div class="tooltip tooltip--left" role="tooltip">
+                <h3>Yan Tel / Cam</h3>
+                <p>Sağ yan duvar. Stratejik vuruşlar için kullanılabilir.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Orta çizgi -->
+          <div class="center-line"></div>
+
+          <!-- Animasyon topu -->
+          <div class="anim-ball" id="animBall"></div>
+          <div class="anim-ball anim-ball--trail" id="animBallTrail"></div>
+
+        </div>
+
+        <!-- Saha boyutları etiketi -->
+        <div class="court-dimensions">
+          <span class="dim-width">← 10 metre →</span>
+          <span class="dim-height">↕ 20 metre</span>
+        </div>
+      </div>
+
+      <p class="court-hint">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
+        Saha üzerindeki alanlara tıklayın veya üzerine gelin — detaylı bilgi görüntülenir.
+      </p>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════
+       3. ANİMASYONLU OYUN MEKANİKLERİ
+  ═══════════════════════════════════════════ -->
+  <section class="section section--dark" id="mechanics">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-tag">Oyun Mekaniği</div>
+        <h2 class="section-title">Hareketi Gör, Anla</h2>
+        <p class="section-desc">İki temel padel vuruşunu animasyon ile öğren. Butona bas ve izle.</p>
+      </div>
+
+      <div class="mechanics-grid">
+
+        <!-- Animasyon 1: Servis -->
+        <div class="mechanic-card" id="mechanic-serve">
+          <div class="mechanic-info">
+            <div class="mechanic-number">01</div>
+            <h3>Doğru Servis</h3>
+            <p>
+              Servis atıcı, kendi sahasında bel hizasının altından topu vurur. Top önce kendi sahasında <strong>bir kez</strong> sektikten sonra fileyi aşarak rakibin <strong>çapraz servis kutusuna</strong> düşmeli ve oradan arka cama çarpabilir.
+            </p>
+            <ul class="mechanic-rules">
+              <li>
+                <span class="rule-icon rule-icon--ok">✓</span>
+                Bel altından vurulmalı
+              </li>
+              <li>
+                <span class="rule-icon rule-icon--ok">✓</span>
+                Kendi sahasında bir sekme
+              </li>
+              <li>
+                <span class="rule-icon rule-icon--ok">✓</span>
+                Çapraz kutuya gitmeli
+              </li>
+              <li>
+                <span class="rule-icon rule-icon--warn">!</span>
+                2 hak — ilk hata geçer
+              </li>
+            </ul>
+            <button class="btn btn--primary btn--anim" id="btnServe" aria-label="Servis animasyonunu başlat">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+              Servisi İzle
+            </button>
+          </div>
+          <div class="mechanic-court-wrap">
+            <div class="mechanic-court" id="serveCourt">
+              <!-- Mini saha çizgileri -->
+              <div class="mc-net"></div>
+              <div class="mc-service-line mc-service-line--top"></div>
+              <div class="mc-service-line mc-service-line--bottom"></div>
+              <div class="mc-center-line"></div>
+              <div class="mc-back-wall mc-back-wall--top"></div>
+              <div class="mc-back-wall mc-back-wall--bottom"></div>
+              <!-- Player -->
+              <div class="mc-player mc-player--server" id="serverPlayer">
+                <div class="mc-player-dot"></div>
+                <span>Servis</span>
+              </div>
+              <!-- Ball -->
+              <div class="mc-ball" id="serveBall"></div>
+              <!-- Bounce markers -->
+              <div class="mc-bounce" id="serveBounce1"></div>
+              <div class="mc-bounce" id="serveBounce2"></div>
+              <!-- Trajectory path -->
+              <svg class="mc-trajectory" id="serveTrajectory" viewBox="0 0 300 600" preserveAspectRatio="none">
+                <path id="servePath" d="" fill="none" stroke="rgba(204,255,0,0.3)" stroke-width="2" stroke-dasharray="6,4"/>
+              </svg>
+            </div>
+          </div>
+        </div>
+
+        <!-- Animasyon 2: Duvar Vuruşu -->
+        <div class="mechanic-card" id="mechanic-wall">
+          <div class="mechanic-info">
+            <div class="mechanic-number">02</div>
+            <h3>Duvarı Kullanmak</h3>
+            <p>
+              Padelin en heyecanlı özelliği: Rakibin topu <strong>arka cama çarpar</strong>, oradan sekip gelir. Savunmacı oyuncu bu seken topu alarak karşıya atar. Cam vuruşları oyunun sürdürülebilirliğini artırır.
+            </p>
+            <ul class="mechanic-rules">
+              <li>
+                <span class="rule-icon rule-icon--ok">✓</span>
+                Cam sekerek geri döner
+              </li>
+              <li>
+                <span class="rule-icon rule-icon--ok">✓</span>
+                Zemin teması sonrası sekme
+              </li>
+              <li>
+                <span class="rule-icon rule-icon--ok">✓</span>
+                Oyuncu vuruş yapabilir
+              </li>
+              <li>
+                <span class="rule-icon rule-icon--warn">!</span>
+                İki zemins sekme: hata
+              </li>
+            </ul>
+            <button class="btn btn--primary btn--anim" id="btnWall" aria-label="Duvar vuruşu animasyonunu başlat">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+              Duvar Vuruşunu İzle
+            </button>
+          </div>
+          <div class="mechanic-court-wrap">
+            <div class="mechanic-court" id="wallCourt">
+              <div class="mc-net"></div>
+              <div class="mc-service-line mc-service-line--top"></div>
+              <div class="mc-service-line mc-service-line--bottom"></div>
+              <div class="mc-center-line"></div>
+              <div class="mc-back-wall mc-back-wall--top"></div>
+              <div class="mc-back-wall mc-back-wall--bottom"></div>
+              <!-- Players -->
+              <div class="mc-player mc-player--attacker" id="attackerPlayer">
+                <div class="mc-player-dot mc-player-dot--enemy"></div>
+                <span>Rakip</span>
+              </div>
+              <div class="mc-player mc-player--defender" id="defenderPlayer">
+                <div class="mc-player-dot"></div>
+                <span>Savunma</span>
+              </div>
+              <!-- Ball -->
+              <div class="mc-ball mc-ball--wall" id="wallBall"></div>
+              <!-- Bounce markers -->
+              <div class="mc-bounce" id="wallBounce1"></div>
+              <div class="mc-bounce" id="wallBounce2"></div>
+              <!-- SVG trajectory -->
+              <svg class="mc-trajectory" id="wallTrajectory" viewBox="0 0 300 600" preserveAspectRatio="none">
+                <path id="wallPath" d="" fill="none" stroke="rgba(0,119,182,0.3)" stroke-width="2" stroke-dasharray="6,4"/>
+              </svg>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════
+       4. KURALLAR VE OYNANIS
+  ═══════════════════════════════════════════ -->
+  <section class="section" id="rules">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-tag">Kurallar</div>
+        <h2 class="section-title">Nasıl Oynanır?</h2>
+        <p class="section-desc">Padelin temel kurallarını şık kartlar ile öğren.</p>
+      </div>
+
+      <!-- Puanlama Sistemi -->
+      <div class="rules-block">
+        <h3 class="rules-block-title">
+          <span class="rules-icon">🏆</span>
+          Puanlama Sistemi
+        </h3>
+        <div class="scoring-track">
+          <div class="score-step">
+            <div class="score-circle score-circle--0">0</div>
+            <span>Love</span>
+          </div>
+          <div class="score-arrow">→</div>
+          <div class="score-step">
+            <div class="score-circle score-circle--15">15</div>
+            <span>İlk Puan</span>
+          </div>
+          <div class="score-arrow">→</div>
+          <div class="score-step">
+            <div class="score-circle score-circle--30">30</div>
+            <span>İkinci</span>
+          </div>
+          <div class="score-arrow">→</div>
+          <div class="score-step">
+            <div class="score-circle score-circle--40">40</div>
+            <span>Maç Topu</span>
+          </div>
+          <div class="score-arrow">→</div>
+          <div class="score-step">
+            <div class="score-circle score-circle--adv">ADV</div>
+            <span>Avantaj</span>
+          </div>
+          <div class="score-arrow">→</div>
+          <div class="score-step">
+            <div class="score-circle score-circle--game">OYUN</div>
+            <span>Oyun Kazanıldı</span>
+          </div>
+        </div>
+        <div class="scoring-note">
+          <strong>Beraberlikte (40-40):</strong> "Deuce" / "Eşitlik" — Her iki takım da aynı anda 40'a ulaşırsa, bir sonraki puanı alan takım "Avantaj" kazanır. Avantajlıyken bir puan daha almak oyunu kazandırır; aksi hâlde tekrar Deuce'a dönülür.
+        </div>
+      </div>
+
+      <!-- Kurallar Kartları -->
+      <div class="rules-cards">
+
+        <div class="rule-card" data-reveal>
+          <div class="rule-card-icon">🎾</div>
+          <h4>Servis Atma Kuralları</h4>
+          <ul>
+            <li>Top <strong>bel hizasının altından</strong> vurulmalı</li>
+            <li>Önce kendi sahasında <strong>bir kez</strong> sektirilerek vurulmalı</li>
+            <li>Top fileden geçerek karşının <strong>çapraz kutusuna</strong> düşmeli</li>
+            <li>Servis sırası oyun bitiminde <strong>dönüşümlü</strong> değişir</li>
+            <li>Her oyunda <strong>2 servis hakkı</strong> vardır</li>
+          </ul>
+        </div>
+
+        <div class="rule-card" data-reveal>
+          <div class="rule-card-icon">🔄</div>
+          <h4>Maçın İlerleyişi</h4>
+          <ul>
+            <li>Maçlar genellikle <strong>3 sette</strong> oynanır</li>
+            <li>Her set <strong>6 oyun</strong> üzerinden; 6-0, 6-1... gibi kazanılır</li>
+            <li>Set 6-6 olursa <strong>Tie-Break</strong> oynanır (7 puana kadar)</li>
+            <li>Tie-break sonunda da beraberse <strong>10 puana kadar</strong> uzatılır</li>
+            <li>İki set kazanan taraf <strong>maçı kazanır</strong></li>
+          </ul>
+        </div>
+
+        <div class="rule-card" data-reveal>
+          <div class="rule-card-icon">🏃</div>
+          <h4>Topu Geri Oynatma</h4>
+          <ul>
+            <li>Top kendi sahasında yere <strong>bir kez</strong> sekebilir</li>
+            <li>İki kez sektikten sonra vurulursa <strong>puan kaybedilir</strong></li>
+            <li>Top <strong>doğrudan havadan</strong> da vurulabilir (vole)</li>
+            <li>Kendi sahasının dışından da vurabilirsin — duvardan sekme avantajı</li>
+            <li>Rakip sahasına her türlü yoldan atış yapılabilir</li>
+          </ul>
+        </div>
+
+        <div class="rule-card" data-reveal>
+          <div class="rule-card-icon">🧱</div>
+          <h4>Duvar & Cam Kuralları</h4>
+          <ul>
+            <li>Top <strong>zemine çarptıktan sonra</strong> cama/tele değebilir</li>
+            <li>Camdan seken top ile oyun <strong>devam eder</strong></li>
+            <li>Top <strong>fileden geçmeden</strong> direkt cama çarparsa hata</li>
+            <li>Servis atışında top cama değerse <strong>servis hatası</strong></li>
+            <li>Yan telden seken toplar da oyunda sayılır</li>
+          </ul>
+        </div>
+
+        <div class="rule-card" data-reveal>
+          <div class="rule-card-icon">👥</div>
+          <h4>Oyuncu Kuralları</h4>
+          <ul>
+            <li>Her iki oyuncu da topu <strong>raket ile</strong> vurmak zorunda</li>
+            <li>Top vücuda değerse <strong>hata sayılır</strong></li>
+            <li>Oyuncular filein karşı tarafına <strong>geçemez</strong></li>
+            <li>Servis sırası setler boyunca <strong>değişmez</strong> (aynı oyuncu)</li>
+            <li>Çiftlerde <strong>sırayla vuruş</strong> zorunluluğu yoktur</li>
+          </ul>
+        </div>
+
+        <div class="rule-card" data-reveal>
+          <div class="rule-card-icon">⚡</div>
+          <h4>Golden Point Kuralı</h4>
+          <ul>
+            <li>Bazı turnuvalarda <strong>No-Ad</strong> kuralı uygulanır</li>
+            <li>40-40'da bir sonraki puan <strong>direkt oyunu belirler</strong></li>
+            <li>Alan takım <strong>servis tarafını</strong> seçer</li>
+            <li>Bu kural maç süresini <strong>kısaltır</strong></li>
+            <li>Profesyonel turnuvalarda yaygın kullanılır</li>
+          </ul>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════
+       5. SİNGLES VS DOUBLES
+  ═══════════════════════════════════════════ -->
+  <section class="section section--dark" id="formats">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-tag">Format</div>
+        <h2 class="section-title">2 Kişi mi, 4 Kişi mi?</h2>
+        <p class="section-desc">Padelin %90'ı çiftler (doubles) formatında oynanır. İşte fark!</p>
+      </div>
+
+      <div class="format-comparison">
+
+        <!-- Doubles -->
+        <div class="format-card format-card--doubles">
+          <div class="format-card-header">
+            <div class="format-badge format-badge--popular">En Popüler</div>
+            <h3>Çiftler (Doubles)</h3>
+            <div class="format-players">
+              <div class="player-icon">🧑</div>
+              <div class="player-icon">🧑</div>
+              <span>vs</span>
+              <div class="player-icon">🧑</div>
+              <div class="player-icon">🧑</div>
+            </div>
+          </div>
+          <div class="format-court-visual format-court-visual--doubles">
+            <div class="fv-net"></div>
+            <div class="fv-dim fv-dim--w">10 m</div>
+            <div class="fv-dim fv-dim--h">20 m</div>
+            <div class="fv-players">
+              <div class="fv-player fv-player--1"></div>
+              <div class="fv-player fv-player--2"></div>
+              <div class="fv-player fv-player--3"></div>
+              <div class="fv-player fv-player--4"></div>
+            </div>
+          </div>
+          <ul class="format-features">
+            <li class="feature--yes">
+              <span class="fi">✓</span>
+              Standart Saha: <strong>10 × 20 metre</strong>
+            </li>
+            <li class="feature--yes">
+              <span class="fi">✓</span>
+              4 oyuncu — 2'ye 2
+            </li>
+            <li class="feature--yes">
+              <span class="fi">✓</span>
+              Tüm cam ve teller oyunda
+            </li>
+            <li class="feature--yes">
+              <span class="fi">✓</span>
+              Takım stratejisi çok önemli
+            </li>
+            <li class="feature--yes">
+              <span class="fi">✓</span>
+              Dünyanın %90 padeli bu formatta
+            </li>
+            <li class="feature--yes">
+              <span class="fi">✓</span>
+              Profesyonel turnuva standardı
+            </li>
+          </ul>
+        </div>
+
+        <!-- vs divider -->
+        <div class="format-vs">
+          <div class="vs-circle">VS</div>
+        </div>
+
+        <!-- Singles -->
+        <div class="format-card format-card--singles">
+          <div class="format-card-header">
+            <div class="format-badge format-badge--singles">Daha Az Yaygın</div>
+            <h3>Tekler (Singles)</h3>
+            <div class="format-players">
+              <div class="player-icon">🧑</div>
+              <span>vs</span>
+              <div class="player-icon">🧑</div>
+            </div>
+          </div>
+          <div class="format-court-visual format-court-visual--singles">
+            <div class="fv-net"></div>
+            <div class="fv-dim fv-dim--w">6 m</div>
+            <div class="fv-dim fv-dim--h">20 m</div>
+            <div class="fv-players">
+              <div class="fv-player fv-player--1"></div>
+              <div class="fv-player fv-player--3"></div>
+            </div>
+          </div>
+          <ul class="format-features">
+            <li class="feature--yes">
+              <span class="fi">✓</span>
+              Dar Saha: <strong>6 × 20 metre</strong>
+            </li>
+            <li class="feature--yes">
+              <span class="fi">✓</span>
+              2 oyuncu — 1'e 1
+            </li>
+            <li class="feature--note">
+              <span class="fi">○</span>
+              Yan teller ve camlar yok
+            </li>
+            <li class="feature--note">
+              <span class="fi">○</span>
+              Daha fazla fiziksel kondisyon
+            </li>
+            <li class="feature--note">
+              <span class="fi">○</span>
+              Özel dar kort gerekli
+            </li>
+            <li class="feature--note">
+              <span class="fi">○</span>
+              Daha az yaygın format
+            </li>
+          </ul>
+        </div>
+
+      </div>
+
+      <!-- Key difference callout -->
+      <div class="format-callout">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+        <p>Padel kortları çoğunlukla <strong>doubles (10×20m)</strong> standardında inşa edilir. Singles için sahanın 2 metre her iki tarafı bant ile kapatılır ve yan duvarlar oyun dışı bırakılır.</p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════
+       6. HATALAR VE CEZALAR (FAUL)
+  ═══════════════════════════════════════════ -->
+  <section class="section" id="faults">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-tag">Dikkat!</div>
+        <h2 class="section-title">Hatalar & Fauller</h2>
+        <p class="section-desc">Bu durumlardan birinde karşı takım puan alır. Dikkat et!</p>
+      </div>
+
+      <div class="faults-grid">
+
+        <!-- Accordion item 1 -->
+        <div class="fault-item" data-accordion>
+          <button class="fault-header" aria-expanded="false">
+            <div class="fault-header-left">
+              <span class="fault-icon">🚫</span>
+              <span class="fault-title">Topun Doğrudan Cama / Duvara Çarpması</span>
+            </div>
+            <span class="fault-chevron">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg>
+            </span>
+          </button>
+          <div class="fault-body">
+            <p>Top, fileyi geçtikten sonra rakip sahasında önce <strong>yere değmeden</strong> doğrudan arka cama veya yan duvara çarparsa, <strong>bu atış hata sayılır</strong> ve rakip puan alır.</p>
+            <div class="fault-example">
+              <span class="fault-example-wrong">✗ Yanlış:</span> File → Direkt cam → Puan kaybı
+              <br />
+              <span class="fault-example-right">✓ Doğru:</span> File → Zemin sekme → Cam → Oyun devam
+            </div>
+          </div>
+        </div>
+
+        <!-- Accordion item 2 -->
+        <div class="fault-item" data-accordion>
+          <button class="fault-header" aria-expanded="false">
+            <div class="fault-header-left">
+              <span class="fault-icon">⛔</span>
+              <span class="fault-title">Kendi Sahasında İki Kez Sekmesi</span>
+            </div>
+            <span class="fault-chevron">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg>
+            </span>
+          </button>
+          <div class="fault-body">
+            <p>Rakipten gelen top kendi sahanızda iki kez yere değdiğinde topun <strong>oyun dışı</strong> sayılması gerekir. İlk sekeye kadar vurabilirsiniz; ikinci sekeden sonra vuramazsınız.</p>
+            <div class="fault-example">
+              <span class="fault-example-wrong">✗ Yanlış:</span> Top 2. kez yere değdi → vurdun → Puan kaybı
+              <br />
+              <span class="fault-example-right">✓ Doğru:</span> 1. sekeden hemen sonra vur
+            </div>
+          </div>
+        </div>
+
+        <!-- Accordion item 3 -->
+        <div class="fault-item" data-accordion>
+          <button class="fault-header" aria-expanded="false">
+            <div class="fault-header-left">
+              <span class="fault-icon">🔴</span>
+              <span class="fault-title">Fileye Temas / Topun Fileye Çarpması</span>
+            </div>
+            <span class="fault-chevron">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg>
+            </span>
+          </button>
+          <div class="fault-body">
+            <p>Vurulan top fileye çarparsa ve karşıya geçemezse <strong>puan kaybedilir</strong>. Oyuncunun bedeninin veya raketinin file ile temas etmesi de hata sayılır.</p>
+            <div class="fault-example">
+              <span class="fault-example-wrong">✗ Yanlış:</span> Top file bandına çarptı, geçemedi → Hata
+              <br />
+              <span class="fault-example-right">✓ Özel:</span> Servis topunun file bandına değip karşıya geçmesi → Servis tekrarı (Let)
+            </div>
+          </div>
+        </div>
+
+        <!-- Accordion item 4 -->
+        <div class="fault-item" data-accordion>
+          <button class="fault-header" aria-expanded="false">
+            <div class="fault-header-left">
+              <span class="fault-icon">⚠️</span>
+              <span class="fault-title">Topun Yan Tel / Bariyer Dışına Çıkması</span>
+            </div>
+            <span class="fault-chevron">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg>
+            </span>
+          </button>
+          <div class="fault-body">
+            <p>Top sahanın sınırları dışına çıkarsa (yan tel üzerinden veya arka duvarın üstünden), o atış <strong>hata</strong> sayılır ve puan kaybedilir.</p>
+            <div class="fault-example">
+              <span class="fault-example-wrong">✗ Yanlış:</span> Top yan telin üstünden dışarı çıktı → Hata
+              <br />
+              <span class="fault-example-right">✓ Doğru:</span> Top tel içinde kalmalı, seken top geçerli
+            </div>
+          </div>
+        </div>
+
+        <!-- Accordion item 5 -->
+        <div class="fault-item" data-accordion>
+          <button class="fault-header" aria-expanded="false">
+            <div class="fault-header-left">
+              <span class="fault-icon">❌</span>
+              <span class="fault-title">Çift Vuruş / Taşıma</span>
+            </div>
+            <span class="fault-chevron">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg>
+            </span>
+          </button>
+          <div class="fault-body">
+            <p>Top raketten iki kez vuruşu veya raket yüzeyinde taşınması <strong>hata</strong> sayılır. Her vuruş tek, temiz bir hareketle yapılmalıdır.</p>
+            <div class="fault-example">
+              <span class="fault-example-wrong">✗ Yanlış:</span> Aynı vuruşta topa iki kez değdi → Hata
+              <br />
+              <span class="fault-example-right">✓ Doğru:</span> Tek, temiz ve net vuruş
+            </div>
+          </div>
+        </div>
+
+        <!-- Accordion item 6 -->
+        <div class="fault-item" data-accordion>
+          <button class="fault-header" aria-expanded="false">
+            <div class="fault-header-left">
+              <span class="fault-icon">🏸</span>
+              <span class="fault-title">Bedenle veya Giysilerle Topa Değme</span>
+            </div>
+            <span class="fault-chevron">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg>
+            </span>
+          </button>
+          <div class="fault-body">
+            <p>Oyuncunun gövdesi, kolu veya giysileri topa değerse <strong>puan kaybedilir</strong>. Top sadece raket yüzeyi ile vurulabilir.</p>
+            <div class="fault-example">
+              <span class="fault-example-wrong">✗ Yanlış:</span> Top oyuncunun koluna değdi → Rakip puan alır
+              <br />
+              <span class="fault-example-right">✓ Doğru:</span> Sadece raket yüzeyi ile temas
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════
+       FOOTER
+  ═══════════════════════════════════════════ -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-inner">
+        <div class="footer-brand">
+          <span class="logo-ball">⬤</span>
+          PADEL<span class="logo-accent">TR</span>
+        </div>
+        <p class="footer-copy">Padel Tenisi Rehberi &mdash; Türkiye'nin Padel Kaynağı</p>
+        <div class="footer-links">
+          <a href="#hero">Başa Dön</a>
+          <a href="#court-map">Saha</a>
+          <a href="#rules">Kurallar</a>
+          <a href="#faults">Fauller</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Tooltip overlay (mobile) -->
+  <div class="tooltip-overlay" id="tooltipOverlay"></div>
+
+  <script src="script.js"></script>
+</body>
+</html>
