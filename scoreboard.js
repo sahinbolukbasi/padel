@@ -13,6 +13,7 @@
     inputB: document.getElementById('inputTeamB'),
 
     btnStart: document.getElementById('btnStartMatch'),
+    btnSetupClose: document.getElementById('btnSetupClose'),
     btnOpenSetup: document.getElementById('btnOpenSetup'),
     btnNewMatch: document.getElementById('btnNewMatch'),
     btnUndo: document.getElementById('btnUndo'),
@@ -401,6 +402,9 @@
 
   // events
   els.btnStart.addEventListener('click', beginMatch);
+  els.btnSetupClose.addEventListener('click', () => {
+    window.location.href = 'index.html';
+  });
   els.btnOpenSetup.addEventListener('click', openSetup);
   els.btnNewMatch.addEventListener('click', resetForNewMatch);
   els.btnUndo.addEventListener('click', undo);

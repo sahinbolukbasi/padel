@@ -120,6 +120,11 @@
 
   let activeZone = null;
 
+  function setPreview(zoneEl, enabled) {
+    if (!zoneEl) return;
+    zoneEl.classList.toggle('is-preview', enabled);
+  }
+
   function setActive(zoneEl) {
     zones.forEach(z => z.classList.remove('is-active'));
     if (zoneEl) zoneEl.classList.add('is-active');
@@ -145,13 +150,41 @@
     overlay.classList.remove('is-open');
     sheet.classList.remove('is-open');
     sheet.setAttribute('aria-hidden', 'true');
+    zones.forEach(z => z.classList.remove('is-preview'));
     if (activeZone) activeZone.classList.remove('is-active');
     activeZone = null;
   }
 
   zones.forEach(zone => {
+    zone.setAttribute('tabindex', '0');
+    zone.setAttribute('role', 'button');
+    const zoneKey = zone.dataset.zone;
+    if (zoneData[zoneKey]) {
+      zone.setAttribute('aria-label', zoneData[zoneKey].title);
+    }
+
+    zone.addEventListener('pointerenter', () => setPreview(zone, true));
+    zone.addEventListener('pointerleave', () => setPreview(zone, false));
+    zone.addEventListener('focus', () => setPreview(zone, true));
+    zone.addEventListener('blur', () => setPreview(zone, false));
+    zone.addEventListener('touchstart', () => setPreview(zone, true), { passive: true });
+    zone.addEventListener('touchend', () => {
+      if (!zone.classList.contains('is-active')) setPreview(zone, false);
+    }, { passive: true });
+    zone.addEventListener('touchcancel', () => setPreview(zone, false), { passive: true });
+
     zone.addEventListener('click', () => {
       const key = zone.dataset.zone;
+      setPreview(zone, false);
+      setActive(zone);
+      openSheet(key);
+    });
+
+    zone.addEventListener('keydown', e => {
+      if (e.key !== 'Enter' && e.key !== ' ') return;
+      e.preventDefault();
+      const key = zone.dataset.zone;
+      setPreview(zone, false);
       setActive(zone);
       openSheet(key);
     });
