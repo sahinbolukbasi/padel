@@ -583,3 +583,59 @@ body { padding-bottom: env(safe-area-inset-bottom); }
     font-size: clamp(2.25rem, 12vw, 3.2rem);
   }
 }
+
+@media (max-width: 360px) {
+  .app {
+    padding: 0.6rem;
+    gap: 0.55rem;
+  }
+
+  .topbar h1 {
+    font-size: 0.86rem;
+  }
+
+  .team-panel {
+    min-height: 22dvh;
+    padding: 0.62rem;
+  }
+
+  .live-score {
+    font-size: clamp(2rem, 11vw, 2.8rem);
+  }
+
+  .control-btn,
+  .start-btn {
+    min-height: 42px;
+    font-size: 0.84rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .app {
+    max-width: 980px;
+  }
+
+  .topbar h1 {
+    font-size: 1.14rem;
+  }
+
+  .team-panel {
+    min-height: 42dvh;
+  }
+}
+
+@media (max-height: 560px) and (orientation: landscape) {
+  .app {
+    grid-template-rows: auto auto auto auto auto auto;
+  }
+
+  .team-panel {
+    min-height: 42vh;
+  }
+
+  .setup-card,
+  .winner-card {
+    max-height: 88vh;
+    overflow: auto;
+  }
+}
