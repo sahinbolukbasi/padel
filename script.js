@@ -11,27 +11,54 @@
   const toggle    = document.getElementById('navToggle');
   const navLinks  = document.getElementById('navLinks');
 
+  if (!navbar || !toggle || !navLinks) return;
+
+  const closeNav = () => {
+    navLinks.classList.remove('is-open');
+    toggle.classList.remove('is-open');
+    toggle.setAttribute('aria-expanded', 'false');
+    document.body.classList.remove('nav-open');
+  };
+
+  const syncNavOffset = () => {
+    document.documentElement.style.setProperty('--nav-offset', `${navbar.offsetHeight}px`);
+  };
+
   // Scroll effect
   const onScroll = () => {
     navbar.classList.toggle('is-scrolled', window.scrollY > 40);
   };
   window.addEventListener('scroll', onScroll, { passive: true });
+  window.addEventListener('resize', () => {
+    syncNavOffset();
+    if (window.innerWidth > 768) closeNav();
+  });
   onScroll();
+  syncNavOffset();
 
   // Mobile toggle
   toggle.addEventListener('click', () => {
     const open = navLinks.classList.toggle('is-open');
     toggle.classList.toggle('is-open', open);
     toggle.setAttribute('aria-expanded', String(open));
+    document.body.classList.toggle('nav-open', open && window.innerWidth <= 768);
   });
 
   // Close nav on link click (mobile)
   navLinks.querySelectorAll('a').forEach(link => {
     link.addEventListener('click', () => {
-      navLinks.classList.remove('is-open');
-      toggle.classList.remove('is-open');
-      toggle.setAttribute('aria-expanded', 'false');
+      closeNav();
     });
+  });
+
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') closeNav();
+  });
+
+  document.addEventListener('click', e => {
+    if (!navLinks.classList.contains('is-open')) return;
+    if (navLinks.contains(e.target) || toggle.contains(e.target)) return;
+    closeNav();
   });
 })();
 
@@ -120,6 +147,14 @@
 
   let activeZone = null;
 
+  const lockSheetScroll = () => {
+    document.body.classList.add('sheet-open');
+  };
+
+  const unlockSheetScroll = () => {
+    document.body.classList.remove('sheet-open');
+  };
+
   function setPreview(zoneEl, enabled) {
     if (!zoneEl) return;
     zoneEl.classList.toggle('is-preview', enabled);
@@ -144,6 +179,7 @@
     overlay.classList.add('is-open');
     sheet.classList.add('is-open');
     sheet.setAttribute('aria-hidden', 'false');
+    lockSheetScroll();
   }
 
   function closeSheet() {
@@ -153,6 +189,7 @@
     zones.forEach(z => z.classList.remove('is-preview'));
     if (activeZone) activeZone.classList.remove('is-active');
     activeZone = null;
+    unlockSheetScroll();
   }
 
   zones.forEach(zone => {
@@ -271,6 +308,7 @@
   const shadow = document.getElementById('motionBallShadow');
   const trail = document.getElementById('motionTrail');
   const impacts = document.getElementById('motionImpacts');
+  const striker = document.getElementById('motionStriker');
   const pathGhost = document.getElementById('motionPathGhost');
   const wallTop = document.getElementById('motionWallTop');
   const wallBottom = document.getElementById('motionWallBottom');
@@ -369,10 +407,18 @@
   let animating = false;
   let runToken = 0;
   let speedScale = 1;
+  const strikerScale = 1.32;
+  const PLAY_LABEL = '▶ Oynat';
+  const PLAYING_LABEL = '⏸ Oynatiliyor';
+  const REPLAY_LABEL = '↺ Tekrar';
   const activeTrails = [];
 
   function lerp(a, b, t) {
     return a + (b - a) * t;
+  }
+
+  function clamp(v, min, max) {
+    return Math.max(min, Math.min(max, v));
   }
 
   function easeInOut(t) {
@@ -469,6 +515,108 @@
     }, 380);
   }
 
+  function setStrikerPose(base, target, swingDeg = 0) {
+    if (!striker) return;
+    const dx = target[0] - base[0];
+    const dy = target[1] - base[1];
+    const baseAngle = Math.atan2(dy, dx) * (180 / Math.PI);
+    striker.style.opacity = '1';
+    striker.style.visibility = 'visible';
+    striker.setAttribute('transform', `translate(${base[0]} ${base[1]}) rotate(${baseAngle + swingDeg}) scale(${strikerScale})`);
+  }
+
+  function strikerBaseFor(from, to) {
+    const dx = to[0] - from[0];
+    const dy = to[1] - from[1];
+    const len = Math.hypot(dx, dy) || 1;
+    const ux = dx / len;
+    const uy = dy / len;
+    const x = from[0] - ux * 18;
+    const y = from[1] - uy * 18;
+    return [clamp(x, 72, 248), clamp(y, 78, 608)];
+  }
+
+  function pulseStrikerHit() {
+    if (!striker) return;
+    striker.classList.remove('is-hit');
+    void striker.getBBox();
+    striker.classList.add('is-hit');
+    setTimeout(() => striker.classList.remove('is-hit'), 170);
+  }
+
+  function spawnHitSpark(x, y) {
+    const group = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+    group.setAttribute('transform', `translate(${x} ${y})`);
+
+    const rays = [
+      [-9, 0, -3, 0],
+      [3, 0, 9, 0],
+      [0, -9, 0, -3],
+      [0, 3, 0, 9],
+      [-6, -6, -2, -2],
+      [2, 2, 6, 6],
+      [-6, 6, -2, 2],
+      [2, -2, 6, -6]
+    ];
+
+    rays.forEach(([x1, y1, x2, y2]) => {
+      const ray = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+      ray.setAttribute('x1', String(x1));
+      ray.setAttribute('y1', String(y1));
+      ray.setAttribute('x2', String(x2));
+      ray.setAttribute('y2', String(y2));
+      ray.setAttribute('stroke', 'rgba(235,255,170,0.9)');
+      ray.setAttribute('stroke-width', '1.5');
+      ray.setAttribute('stroke-linecap', 'round');
+      group.appendChild(ray);
+    });
+
+    impacts.appendChild(group);
+    group.style.transition = 'transform 190ms ease-out, opacity 190ms ease-out';
+
+    requestAnimationFrame(() => {
+      group.style.transform = `translate(${x}px, ${y}px) scale(1.55)`;
+      group.style.opacity = '0';
+    });
+
+    setTimeout(() => group.remove(), 210);
+  }
+
+  async function animateStrikerSwing(from, to, onContact) {
+    if (!striker) return;
+    const base = strikerBaseFor(from, to);
+    const startSwing = -48;
+    const endSwing = 18;
+    const settleSwing = 6;
+    const contactAt = 0.56;
+    const duration = 220 / speedScale;
+    const start = performance.now();
+    const token = runToken;
+
+    let didContact = false;
+
+    return new Promise(resolve => {
+      const tick = now => {
+        if (token !== runToken) return resolve();
+        const t = Math.min(1, (now - start) / duration);
+        const swing = startSwing + (endSwing - startSwing) * easeInOut(t);
+        setStrikerPose(base, from, swing);
+
+        if (!didContact && t >= contactAt) {
+          didContact = true;
+          pulseStrikerHit();
+          spawnHitSpark(from[0], from[1]);
+          if (onContact) onContact();
+        }
+
+        if (t < 1) return requestAnimationFrame(tick);
+        setStrikerPose(base, from, settleSwing);
+        resolve();
+      };
+      requestAnimationFrame(tick);
+    });
+  }
+
   function animateSegment(from, to, options = {}) {
     const arcHeight = options.arc ?? motions[key].defaultArc;
     const duration = (options.duration ?? 560) / speedScale;
@@ -550,10 +698,16 @@
   function renderStep() {
     const m = motions[key];
     const max = m.steps.length - 1;
+    const current = m.steps[step];
+    const next = m.steps[Math.min(step + 1, max)];
     range.max = String(max);
     range.value = String(step);
-    stepLabel.textContent = `Adım ${step + 1}: ${m.steps[step].text}`;
-    placeBall(m.steps[step].p);
+    stepLabel.textContent = `Adım ${step + 1}: ${current.text}`;
+    placeBall(current.p);
+    if (striker) {
+      const base = strikerBaseFor(current.p, next.p);
+      setStrikerPose(base, current.p, -26);
+    }
     renderInfo();
   }
 
@@ -599,7 +753,7 @@
     runToken += 1;
     const token = runToken;
     playBtn.classList.add('is-playing');
-    playBtn.textContent = 'Oynatılıyor...';
+    playBtn.textContent = PLAYING_LABEL;
 
     const m = motions[key];
     for (let i = step; i < m.steps.length - 1; i++) {
@@ -609,10 +763,20 @@
       step = i;
       range.value = String(step);
       stepLabel.textContent = `Adım ${step + 1}: ${from.text}`;
-      await animateSegment(from.p, to.p, {
-        arc: to.arc ?? m.defaultArc,
-        duration: to.duration ?? 560
+      let segmentPromise = null;
+      await animateStrikerSwing(from.p, to.p, () => {
+        segmentPromise = animateSegment(from.p, to.p, {
+          arc: to.arc ?? m.defaultArc,
+          duration: to.duration ?? 560
+        });
       });
+      if (!segmentPromise) {
+        segmentPromise = animateSegment(from.p, to.p, {
+          arc: to.arc ?? m.defaultArc,
+          duration: to.duration ?? 560
+        });
+      }
+      await segmentPromise;
       if (to.impact) {
         spawnRipple(to.p[0], to.p[1]);
         if (to.impact.startsWith('wall')) flashWall(to.impact);
@@ -625,8 +789,8 @@
 
     animating = false;
     playBtn.classList.remove('is-playing');
-    playBtn.textContent = 'Tekrar Oyna';
-    renderInfo();
+    playBtn.textContent = REPLAY_LABEL;
+    renderStep();
   }
 
   tabs.forEach(tab => {
@@ -639,7 +803,7 @@
       runToken += 1;
       clearTrails();
       playBtn.classList.remove('is-playing');
-      playBtn.textContent = 'Animasyonu Oyna';
+      playBtn.textContent = PLAY_LABEL;
       renderPathGhost();
       renderStep();
     });
@@ -677,14 +841,14 @@
     runToken += 1;
     animating = false;
     clearTrails();
-    playBtn.textContent = 'Animasyonu Oyna';
+    playBtn.textContent = PLAY_LABEL;
     renderStep();
   });
 
   renderPathGhost();
   renderStep();
   updateSpeedUi();
-  playBtn.textContent = 'Animasyonu Oyna';
+  playBtn.textContent = PLAY_LABEL;
 })();
 
 /* ─── 6. Utility: Promise-based delay ───────────────────────── */

@@ -73,6 +73,10 @@
     els.setupScreen.classList.remove('is-open');
   }
 
+  function goHome() {
+    window.location.href = 'index.html';
+  }
+
   function resetSetupInputs() {
     els.inputA.value = '';
     els.inputB.value = '';
@@ -402,12 +406,20 @@
 
   // events
   els.btnStart.addEventListener('click', beginMatch);
-  els.btnSetupClose.addEventListener('click', () => {
-    window.location.href = 'index.html';
-  });
+  els.btnSetupClose.addEventListener('click', goHome);
   els.btnOpenSetup.addEventListener('click', openSetup);
   els.btnNewMatch.addEventListener('click', resetForNewMatch);
   els.btnUndo.addEventListener('click', undo);
+
+  els.setupScreen.addEventListener('click', e => {
+    if (e.target === els.setupScreen) goHome();
+  });
+
+  document.addEventListener('keydown', e => {
+    if (e.key !== 'Escape') return;
+    if (!els.setupScreen.classList.contains('is-open')) return;
+    goHome();
+  });
 
   els.btnReset.addEventListener('click', () => {
     if (confirm('Maçı sıfırlamak istediğine emin misin?')) {

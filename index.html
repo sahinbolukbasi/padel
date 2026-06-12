@@ -22,7 +22,7 @@
         <span class="logo-ball">⬤</span>
         PADEL<span class="logo-accent">TR</span>
       </a>
-      <button class="nav-toggle" id="navToggle" aria-label="Menüyü aç/kapat">
+      <button class="nav-toggle" id="navToggle" aria-label="Menüyü aç/kapat" aria-expanded="false" aria-controls="navLinks">
         <span></span><span></span><span></span>
       </button>
       <ul class="nav-links" id="navLinks">
@@ -46,29 +46,29 @@
       <div class="hero-grid-lines"></div>
     </div>
     <div class="hero-content">
-      <div class="hero-badge">🎾 Yeni Nesil Raket Sporu</div>
+      <div class="hero-badge">🎾 Dünyanın En Hızlı Büyüyen Raket Sporu</div>
       <h1 class="hero-title">
-        Padel'i<br />
-        <span class="hero-title--accent">Keşfet</span>
+        Padel'de<br />
+        <span class="hero-title--accent">Oyunu Oku</span>
       </h1>
       <p class="hero-subtitle">
-        Tenis ile squash'ın mükemmel birleşimi. Dünyanın en hızlı büyüyen sporu artık Türkiye'de. 
-        Sahadaki her noktayı öğren, ilk günden sahaya çık.
+        Bu rehberde servis kuralları, camdan oyun, saha yerleşimi ve skor yönetimini tek bir akışta öğren.
+        Yeni başlayan da olsan, maça çıkan oyuncu da olsan padeli daha hızlı ve doğru oyna.
       </p>
       <div class="hero-stats">
         <div class="stat-item">
-          <span class="stat-number">30M+</span>
-          <span class="stat-label">Dünya Geneli Oyuncu</span>
+          <span class="stat-number">3 DK</span>
+          <span class="stat-label">Temel Kurallar Ozeti</span>
         </div>
         <div class="stat-divider"></div>
         <div class="stat-item">
-          <span class="stat-number">90%</span>
-          <span class="stat-label">Çiftler Formatı</span>
+          <span class="stat-number">6+</span>
+          <span class="stat-label">Interaktif Padel Bolumu</span>
         </div>
         <div class="stat-divider"></div>
         <div class="stat-item">
-          <span class="stat-number">10×20m</span>
-          <span class="stat-label">Standart Saha</span>
+          <span class="stat-number">CANLI</span>
+          <span class="stat-label">Skor Bordu ve Mac Takibi</span>
         </div>
       </div>
       <div class="hero-cta">
@@ -250,6 +250,33 @@
               <g id="motionTrail"></g>
               <ellipse id="motionBallShadow" cx="160" cy="516" rx="10" ry="4.2" fill="url(#motionShadowGrad)" />
               <circle id="motionBall" cx="160" cy="500" r="8" fill="#ccff00" filter="url(#motionGlow)" />
+              <g id="motionStriker">
+                <!-- Player wrist/hand -->
+                <circle cx="0" cy="0" r="5" fill="rgba(220,180,140,0.95)" />
+                <!-- Arm to wrist -->
+                <path d="M0 0 L-14 -10" stroke="rgba(200,160,120,0.9)" stroke-width="4.2" stroke-linecap="round" />
+                <!-- Racket handle (thicker, angled) - padel style -->
+                <rect x="2" y="-3.2" width="38" height="6.4" rx="3.2" fill="#c9956c" stroke="rgba(255,255,255,0.4)" stroke-width="1.2" />
+                <!-- Racket head - larger, oval for padel (25-30 range) -->
+                <ellipse cx="48" cy="0" rx="26" ry="21" fill="rgba(30,45,65,0.95)" stroke="rgba(240,248,255,0.98)" stroke-width="2.5" />
+                <!-- Racket strings pattern - padel style grid -->
+                <g stroke="rgba(200,220,255,0.75)" stroke-width="1.1" opacity="0.88">
+                  <line x1="26" y1="-18" x2="70" y2="18" />
+                  <line x1="26" y1="-12" x2="70" y2="12" />
+                  <line x1="26" y1="-6" x2="70" y2="6" />
+                  <line x1="26" y1="0" x2="70" y2="0" />
+                  <line x1="26" y1="6" x2="70" y2="-6" />
+                  <line x1="26" y1="12" x2="70" y2="-12" />
+                  <line x1="26" y1="18" x2="70" y2="-18" />
+                  <line x1="32" y1="-21" x2="64" y2="21" />
+                  <line x1="40" y1="-21" x2="56" y2="21" />
+                  <line x1="48" y1="-21" x2="48" y2="21" />
+                  <line x1="56" y1="-21" x2="40" y2="21" />
+                  <line x1="64" y1="-21" x2="32" y2="21" />
+                </g>
+                <!-- Swing arc indicator -->
+                <path id="motionSwingArc" d="M2 -28 A42 42 0 0 1 2 28" fill="none" stroke="rgba(204,255,0,0.5)" stroke-width="2.2" stroke-linecap="round" opacity="0" />
+              </g>
             </svg>
           </div>
 
